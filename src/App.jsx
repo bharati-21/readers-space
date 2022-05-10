@@ -1,4 +1,4 @@
-import { LandingPage } from "pages/";
+import { LandingPage } from "features/";
 import { Footer, Navbar } from "components";
 
 function App() {
