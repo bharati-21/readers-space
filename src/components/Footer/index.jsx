@@ -9,7 +9,7 @@ const Footer = () => {
 					<a
 						href="https://bharati-21.github.io/"
 						target="_blank"
-						className="text-sky-400 underline hover:scale-95 transition-all ease-in"
+						className="text-sky-400 hover:scale-95 transition-all ease-in"
 					>
 						Bharati Subramanian
 					</a>
