@@ -20,9 +20,15 @@ const LandingPage = () => {
 					<h1 className="hero-text text-lg md:text-2xl">
 						Discover Books, Readers, and Friends!
 					</h1>
-					<button className="p-2 min-w-[120px] rounded-sm text-gray-900 bg-sky-400 hover:bg-sky-500 transition-all ease-linear font-medium md:mb-0 mt-6 mb-4">
-						Join Now
-					</button>
+					<div className="auth-buttons-container flex flex-col justify-center items-center gap-3">
+						<button className="p-2 min-w-[120px] rounded-sm text-gray-900 bg-sky-400 hover:bg-sky-500 transition-all ease-linear font-medium md:mb-0 mt-6 mb-4">
+							Join Now
+						</button>
+						<button className="hover:text-sky-400 transition-all ease-linear">
+							Already have an account?{" "}
+							<span className="underline">Login</span>
+						</button>
+					</div>
 				</div>
 				<div className="hero-image shrink grow basis-full">
 					<img
