@@ -63,7 +63,7 @@ const SignUp = () => {
 	};
 
 	useEffect(() => {
-		setDocumentTitle("ReadersSpace | Login");
+		setDocumentTitle("ReadersSpace | Signup");
 		if (isAuth) {
 			navigate(-1, { replace: true });
 		}
