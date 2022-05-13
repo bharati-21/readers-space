@@ -4,7 +4,7 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAuthState, loginUser } from "../authSlice";
+import { getAuthState, loginUser } from "../../authSlice";
 import { useDocumentTitle, useToast } from "hooks";
 
 const Login = () => {
@@ -35,12 +35,14 @@ const Login = () => {
 		event.preventDefault();
 		try {
 			const response = await dispatch(loginUser(formData));
-			showToast("Login Successfull.", "success");
-
+            if(response?.error) throw new Error("Login Failed");
+            
 			if (response?.payload.encodedToken) {
-				return navigate("/");
+                showToast("Login Successfull.", "success");
+                navigate("/");
+                return;
 			}
-			throw new Error("Login Failed");
+			
 		} catch (error) {
 			showToast("Login Failed.", "error");
 		}

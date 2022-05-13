@@ -4,7 +4,7 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useDocumentTitle, useToast } from "hooks";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthState, signupUser } from "../authSlice";
+import { getAuthState, signupUser } from "../../authSlice";
 
 const SignUp = () => {
 	const { setDocumentTitle } = useDocumentTitle();
@@ -51,12 +51,14 @@ const SignUp = () => {
 		}
 		try {
 			const response = await dispatch(signupUser(formData));
-			showToast("Signup Successfull.", "success");
+            
+            if(response?.error) throw new Error("Signup Failed");
 
 			if (response?.payload.encodedToken) {
+                showToast("Signup Successfull.", "success");
 				navigate("/");
 			}
-			throw new Error("Signup Failed");
+			
 		} catch (error) {
 			showToast("Signup Failed.", "error");
 		}
