@@ -36,18 +36,17 @@ const Login = () => {
 		try {
 			const response = await dispatch(loginUser(formData));
             
-            console.log(response);
-
-            if(response?.error) {
-                throw new Error("Signup Failed");
-            }
+            if (response?.error) {
+                if(response.payload.includes('404')) throw new Error('Username not found!');
+				throw new Error("Signup Failed");
+			}
 
 			if (response?.payload.encodedToken) {
-                showToast("Login Successfull.", "success");
-                return navigate("/");
+				showToast("Signup Successfull.", "success");
+				navigate("/");
 			}
 		} catch (error) {
-			showToast("Login Failed.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
