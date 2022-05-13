@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,800;1,900&display=swap");
+@import url("react-toastify/dist/ReactToastify.css");
 
 @tailwind base;
 @tailwind components;
@@ -11,5 +12,38 @@
 
 	.logo-text {
 		font-family: "Architects Daughter", sans-serif;
+	}
+
+    .label-text::after {
+        content: '*';
+        color: red;
+        position: absolute;
+        right: -10px;
+    }
+}
+
+@layer components {
+	.btn-primary {
+		@apply rounded-sm p-2 text-center text-slate-900 bg-sky-400 hover:bg-sky-500 transition-all ease-in font-medium;
+	}
+
+	.btn-primary-full {
+		@apply w-full bg-sky-400 inline-block py-1.5 px-2 rounded-sm text-slate-900 font-medium hover:bg-sky-500 transition-all ease-in text-base md:text-lg cursor-pointer;
+	}
+
+	.btn-primary-full-outline {
+		@apply w-full border text-gray-100 border-sky-400 inline-block py-1.5 px-2 rounded-sm font-medium hover:text-sky-500 transition-all ease-in text-base md:text-lg cursor-pointer;
+	}
+
+	.btn-primary-link {
+		@apply w-full text-center hover:text-sky-500 text-base transition-all ease-in md:text-lg cursor-pointer;
+	}
+
+	.auth-form-label {
+		@apply w-full md:text-lg text-sm dark:text-gray-100 text-slate-900;
+	}
+
+	.auth-form-input {
+		@apply py-1.5 dark:text-slate-900 border-none px-2 text-sm focus:bg-sky-100 rounded-sm outline-none inline-block w-full font-medium transition-all ease-linear;
 	}
 }
