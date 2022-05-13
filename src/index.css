@@ -8,11 +8,28 @@
 @layer base {
 	html {
 		font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
 	}
+
+    *, *::after, *::before {
+        box-sizing: inherit;
+    }
 
 	.logo-text {
 		font-family: "Architects Daughter", sans-serif;
 	}
+
+	@media screen and (min-width: 768px) {
+        .grid-container {
+            grid-template-columns: 200px 1fr;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .grid-container {
+            grid-template-columns: 200px 1fr 300px;
+        }
+    }
 }
 
 @layer components {
@@ -38,5 +55,13 @@
 
 	.auth-form-input {
 		@apply py-1.5 dark:text-slate-900 border-none px-2 text-sm focus:bg-sky-100 rounded-sm outline-none inline-block w-full font-medium transition-all ease-linear;
+	}
+
+	.active-link {
+		@apply inline-block dark:bg-gray-100 dark:text-slate-900;
+	}
+
+	.link {
+		@apply py-1 px-2 font-semibold hover:text-sky-500 w-full flex flex-row items-center justify-start gap-4 rounded-sm text-lg;
 	}
 }
