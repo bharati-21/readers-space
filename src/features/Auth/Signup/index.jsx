@@ -152,9 +152,9 @@ const SignUp = () => {
                             </span>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
+									type={
 										showPassword ? "text" : "password"
-									}`}
+									}
 									id="input-password"
 									name="password"
 									placeholder="Password"
@@ -187,11 +187,11 @@ const SignUp = () => {
                             </span>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
+									type={
 										showConfirmPassword
 											? "text"
 											: "password"
-									}`}
+									}
 									id="input-confirm-password"
 									name="confirmPassword"
 									className="auth-form-input"
