@@ -35,12 +35,15 @@ const Login = () => {
 		event.preventDefault();
 		try {
 			const response = await dispatch(loginUser(formData));
-			showToast("Login Successfull.", "success");
+            
+            if(response?.error) {
+                throw new Error("Signup Failed");
+            }
 
 			if (response?.payload.encodedToken) {
-				return navigate("/");
+                showToast("Login Successfull.", "success");
+                return navigate("/");
 			}
-			throw new Error("Login Failed");
 		} catch (error) {
 			showToast("Login Failed.", "error");
 		}

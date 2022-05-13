@@ -51,12 +51,15 @@ const SignUp = () => {
 		}
 		try {
 			const response = await dispatch(signupUser(formData));
-			showToast("Signup Successfull.", "success");
+            
+            if(response?.error) {
+                throw new Error("Signup Failed");
+            }
 
 			if (response?.payload.encodedToken) {
+                showToast("Signup Successfull.", "success");
 				navigate("/");
 			}
-			throw new Error("Signup Failed");
 		} catch (error) {
 			showToast("Signup Failed.", "error");
 		}
