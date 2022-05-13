@@ -48,8 +48,8 @@ const Login = () => {
 
 	const handleLoginWithTestCredentials = () => {
 		setFormData({
-			username: "adarshbalika",
-			password: "adarshBalika123",
+			username: process.env.REACT_APP_GUEST_USERNAME,
+			password: process.env.REACT_APP_GUEST_PASSWORD,
 		});
 	};
 
