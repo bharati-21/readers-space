@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logoImage from "images/readers-space-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+	faMoon,
+	faMagnifyingGlass,
+	faSun,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, logoutUser } from "features";
 import { useToast } from "hooks";
 
 const Navbar = () => {
+	const getSystemPreferenceThemeOrSavedTheme = () => {
+		return (
+			localStorage.getItem("readers-space-theme") ||
+			(window.matchMedia("(prefers-color-scheme: dark)").matches
+				? "dark"
+				: "light")
+		);
+	};
+
 	const auth = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { showToast } = useToast();
 	const navigate = useNavigate();
+	const [theme, setTheme] = useState(getSystemPreferenceThemeOrSavedTheme());
 
 	const { isAuth } = auth;
 
@@ -27,8 +41,17 @@ const Navbar = () => {
 		}
 	};
 
+	useEffect(() => {
+		document.body.className = theme;
+		localStorage.setItem("readers-space-theme", theme);
+	}, [theme]);
+
+	const handleThemeChange = () => {
+		setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+	};
+
 	return (
-		<nav className="dark:bg-slate-800 navbar sticky top-0 left-0 z-[5] sm:py-0">
+		<nav className="dark:bg-slate-800 navbar bg-gray-100 sticky top-0 left-0 z-[5] sm:py-0">
 			<div className="max-w-8xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
 				<div className="relative flex items-center justify-between h-16">
 					<Link
@@ -46,7 +69,7 @@ const Navbar = () => {
 					</Link>
 					<div className="search-form hidden sm:block">
 						<form>
-							<div className="relative rounded-sm shadow-sm bg-gray-100">
+							<div className="relative rounded-sm shadow-sm bg-gray-200">
 								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 									<span className="text-gray-400 sm:text-sm">
 										<FontAwesomeIcon
@@ -80,9 +103,12 @@ const Navbar = () => {
 								Join Now
 							</Link>
 						)}
-						<button className="flex align-center justify-center transition-all ease-in  rounded-sm p-1.5 hover:bg-gray-500">
+						<button
+							className="flex align-center justify-center transition-all ease-in  rounded-sm p-1.5 hover:text-gray-100 hover:bg-gray-500"
+							onClick={handleThemeChange}
+						>
 							<FontAwesomeIcon
-								icon={faMoon}
+								icon={theme === "light" ? faMoon : faSun}
 								className="text-2xl font-awesome-icon"
 							/>
 						</button>
