@@ -31,7 +31,10 @@ const Navbar = () => {
 		<nav className="dark:bg-slate-800 navbar sticky top-0 left-0 z-[5] sm:py-0">
 			<div className="max-w-8xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
 				<div className="relative flex items-center justify-between h-16">
-					<Link to="/" className="flex-shrink-0 flex gap-4 items-center">
+					<Link
+						to="/"
+						className="flex-shrink-0 flex gap-4 items-center"
+					>
 						<img
 							className="h-10 w-auto"
 							src={logoImage}
