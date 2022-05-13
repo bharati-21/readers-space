@@ -84,7 +84,9 @@ const SignUp = () => {
 							htmlFor="input-fname"
 							className="auth-form-label"
 						>
-							First Name <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+                                First Name
+                            </span>
 							<input
 								type="text"
 								id="input-fname"
@@ -103,7 +105,9 @@ const SignUp = () => {
 							htmlFor="input-lname"
 							className="auth-form-label"
 						>
-							Last Name <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+                                Last Name
+                            </span>
 							<input
 								type="text"
 								id="input-lname"
@@ -122,7 +126,9 @@ const SignUp = () => {
 							htmlFor="input-username"
 							className="auth-form-label"
 						>
-							Username <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+                                Username
+                            </span>
 							<input
 								type="text"
 								id="input-username"
@@ -141,7 +147,9 @@ const SignUp = () => {
 							htmlFor="input-password"
 							className="auth-form-label"
 						>
-							Password <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+                                Password
+                            </span>
 							<div className="input-container w-full relative">
 								<input
 									type={`${
@@ -174,8 +182,9 @@ const SignUp = () => {
 							htmlFor="input-confirm-password"
 							className="auth-form-label"
 						>
-							Confirm Password{" "}
-							<span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+                                Confirm Password
+                            </span>
 							<div className="input-container w-full relative">
 								<input
 									type={`${

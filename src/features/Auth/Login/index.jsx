@@ -73,9 +73,11 @@ const Login = () => {
 					<div className="form-group w-full">
 						<label
 							htmlFor="input-username"
-							className="auth-form-label"
+							className="auth-form-label username-label"
 						>
-							Username <span className="text-red-500">*</span>
+							<div className="label-text relative w-max">
+                                Username
+                            </div>
 							<input
 								type="text"
 								id="input-username"
@@ -90,14 +92,14 @@ const Login = () => {
 					<div className="form-group w-full">
 						<label
 							htmlFor="input-password"
-							className="auth-form-label"
+							className="auth-form-label password-label"
 						>
-							Password <span className="text-red-500">*</span>
+							<div className="label-text relative w-max">
+                                Password
+                            </div>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
-										showPassword ? "text" : "password"
-									}`}
+									type={ showPassword ? "text" : "password" }
 									id="input-password"
 									name="password"
 									className="auth-form-input"

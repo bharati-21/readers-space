@@ -13,6 +13,13 @@
 	.logo-text {
 		font-family: "Architects Daughter", sans-serif;
 	}
+
+    .label-text::after {
+        content: '*';
+        color: red;
+        position: absolute;
+        right: -10px;
+    }
 }
 
 @layer components {
