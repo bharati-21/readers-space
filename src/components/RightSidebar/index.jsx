@@ -5,7 +5,7 @@ const RightSidebar = () => {
 		<aside className="p-4 py-8 pl-8 hidden lg:flex flex-col items-center w-full">
 			<div className=" flex fixed flex-col gap-6 justify-between items-start w-full max-w-[250px]">
 				<h3 className="text-xl">Who to Follow</h3>
-				<ul className="flex list-none flex-col gap-4 justify-start w-full bg-slate-800 p-3 rounded-sm text-gray-100">
+				<ul className="flex list-none flex-col gap-4 justify-start w-full bg-gray-100 dark:bg-slate-800 p-3 rounded-sm">
 					<li className="flex flex-row items-center justify-between w-full gap-3">
 						<div className="user-info gap-2 flex flex-row items-start justfiy-between">
 							<img
