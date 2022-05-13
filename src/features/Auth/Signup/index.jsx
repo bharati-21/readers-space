@@ -30,7 +30,17 @@ const SignUp = () => {
 
 	const handleFormDataChange = ({ target: { name, value } }) => {
 		if (name === "password" || name === "confirmPassword") {
-			setError(null);
+			if (name === "confirmPassword") {
+				if (password && password !== value) {
+					setError("Passwords do not match");
+				} else setError(null);
+			} else {
+				if (name === "password") {
+					if (confirmPassword && confirmPassword !== value) {
+						setError("Passwords do not match");
+					} else setError(null);
+				}
+			}
 		}
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
@@ -43,27 +53,33 @@ const SignUp = () => {
 			(prevShowConfirmPassword) => !prevShowConfirmPassword
 		);
 
+	const handleChangeConfirmPassword = ({ target: { value, name } }) => {
+		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+		if (password) {
+			if (value !== password) setError("Passwords do not match");
+			else setError(null);
+		} else {
+			setError(null);
+		}
+	};
+
 	const handleSignup = async (event) => {
 		event.preventDefault();
-		if (password !== confirmPassword) {
-			setError("Passwords do not match.");
-			return;
-		}
 		try {
 			const response = await dispatch(signupUser(formData));
-            
-            console.log(response);
 
-            if(response?.error) {
-                throw new Error("Signup Failed");
-            }
+			if (response?.error) {
+				if (response.payload.includes("422"))
+					throw new Error("Username already exists!");
+				throw new Error("Signup Failed");
+			}
 
 			if (response?.payload.encodedToken) {
-                showToast("Signup Successfull.", "success");
+				showToast("Signup Successfull.", "success");
 				navigate("/");
 			}
 		} catch (error) {
-			showToast("Signup Failed.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
@@ -90,8 +106,8 @@ const SignUp = () => {
 							className="auth-form-label"
 						>
 							<span className="label-text relative w-max">
-                                First Name
-                            </span>
+								First Name
+							</span>
 							<input
 								type="text"
 								id="input-fname"
@@ -111,8 +127,8 @@ const SignUp = () => {
 							className="auth-form-label"
 						>
 							<span className="label-text relative w-max">
-                                Last Name
-                            </span>
+								Last Name
+							</span>
 							<input
 								type="text"
 								id="input-lname"
@@ -132,8 +148,8 @@ const SignUp = () => {
 							className="auth-form-label"
 						>
 							<span className="label-text relative w-max">
-                                Username
-                            </span>
+								Username
+							</span>
 							<input
 								type="text"
 								id="input-username"
@@ -153,13 +169,11 @@ const SignUp = () => {
 							className="auth-form-label"
 						>
 							<span className="label-text relative w-max">
-                                Password
-                            </span>
+								Password
+							</span>
 							<div className="input-container w-full relative">
 								<input
-									type={
-										showPassword ? "text" : "password"
-									}
+									type={showPassword ? "text" : "password"}
 									id="input-password"
 									name="password"
 									placeholder="Password"
@@ -176,7 +190,7 @@ const SignUp = () => {
 								>
 									<FontAwesomeIcon
 										className="text-slate-900"
-										icon={showPassword ? faEye : faEyeSlash}
+										icon={showPassword ? faEyeSlash : faEye}
 									/>
 								</button>
 							</div>
@@ -188,8 +202,8 @@ const SignUp = () => {
 							className="auth-form-label"
 						>
 							<span className="label-text relative w-max">
-                                Confirm Password
-                            </span>
+								Confirm Password
+							</span>
 							<div className="input-container w-full relative">
 								<input
 									type={
@@ -204,7 +218,7 @@ const SignUp = () => {
 									placeholder="Confirm Password"
 									autoComplete="off"
 									value={confirmPassword}
-									onChange={handleFormDataChange}
+									onChange={handleChangeConfirmPassword}
 								/>
 								<button
 									type="button"
@@ -217,8 +231,8 @@ const SignUp = () => {
 										className="text-slate-900"
 										icon={
 											showConfirmPassword
-												? faEye
-												: faEyeSlash
+												? faEyeSlash
+												: faEye
 										}
 									/>
 								</button>
@@ -235,7 +249,7 @@ const SignUp = () => {
 							type="submit"
 							className={`btn-primary-full disabled:bg-slate-500`}
 							value="Signup"
-							disabled={authLoading}
+							disabled={authLoading || error}
 						/>
 						<Link to="/login" className="btn-primary-link">
 							Already ReadersSpace member? Login

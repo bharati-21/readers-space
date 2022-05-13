@@ -35,19 +35,19 @@ const Login = () => {
 		event.preventDefault();
 		try {
 			const response = await dispatch(loginUser(formData));
-            
-            console.log(response);
 
-            if(response?.error) {
-                throw new Error("Signup Failed");
-            }
+			if (response?.error) {
+				if (response.payload.includes("404"))
+					throw new Error("Username not found!");
+				throw new Error("Signup Failed");
+			}
 
 			if (response?.payload.encodedToken) {
-                showToast("Login Successfull.", "success");
-                return navigate("/");
+				showToast("Signup Successfull.", "success");
+				navigate("/");
 			}
 		} catch (error) {
-			showToast("Login Failed.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
@@ -81,8 +81,8 @@ const Login = () => {
 							className="auth-form-label username-label"
 						>
 							<div className="label-text relative w-max">
-                                Username
-                            </div>
+								Username
+							</div>
 							<input
 								type="text"
 								id="input-username"
@@ -100,11 +100,11 @@ const Login = () => {
 							className="auth-form-label password-label"
 						>
 							<div className="label-text relative w-max">
-                                Password
-                            </div>
+								Password
+							</div>
 							<div className="input-container w-full relative">
 								<input
-									type={ showPassword ? "text" : "password" }
+									type={showPassword ? "text" : "password"}
 									id="input-password"
 									name="password"
 									className="auth-form-input"
