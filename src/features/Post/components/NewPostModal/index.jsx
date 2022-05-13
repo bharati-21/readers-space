@@ -26,7 +26,7 @@ const NewPostModal = ({ handleShowModalDialog }) => {
 		>
 			<div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-			<div class="fixed z-10 inset-0 overflow-y-auto min-h-screen w-full flex flex-col justify-center items-center p-4 mb-8">
+			<div class="fixed z-10 inset-0 overflow-y-auto min-h-screen w-full flex flex-col justify-start items-center p-4 my-8">
 				<div
 					className="rounded-lg shadow-xl transition-all align-middle max-w-lg h-max w-full relative"
 					ref={modalContentRef}
