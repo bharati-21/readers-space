@@ -52,6 +52,8 @@ const SignUp = () => {
 		try {
 			const response = await dispatch(signupUser(formData));
             
+            console.log(response);
+
             if(response?.error) {
                 throw new Error("Signup Failed");
             }
