@@ -4,7 +4,7 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useDocumentTitle, useToast } from "hooks";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthState, signupUser } from "../../authSlice";
+import { getAuthState, signupUser } from "features";
 
 const SignUp = () => {
 	const { setDocumentTitle } = useDocumentTitle();
@@ -30,7 +30,17 @@ const SignUp = () => {
 
 	const handleFormDataChange = ({ target: { name, value } }) => {
 		if (name === "password" || name === "confirmPassword") {
-			setError(null);
+			if (name === "confirmPassword") {
+				if (password && password !== value) {
+					setError("Passwords do not match");
+				} else setError(null);
+			} else {
+				if (name === "password") {
+					if (confirmPassword && confirmPassword !== value) {
+						setError("Passwords do not match");
+					} else setError(null);
+				}
+			}
 		}
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
@@ -43,24 +53,33 @@ const SignUp = () => {
 			(prevShowConfirmPassword) => !prevShowConfirmPassword
 		);
 
+	const handleChangeConfirmPassword = ({ target: { value, name } }) => {
+		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+		if (password) {
+			if (value !== password) setError("Passwords do not match");
+			else setError(null);
+		} else {
+			setError(null);
+		}
+	};
+
 	const handleSignup = async (event) => {
 		event.preventDefault();
-		if (password !== confirmPassword) {
-			setError("Passwords do not match.");
-			return;
-		}
 		try {
 			const response = await dispatch(signupUser(formData));
-            
-            if(response?.error) throw new Error("Signup Failed");
+
+			if (response?.error) {
+				if (response.payload.includes("422"))
+					throw new Error("Username already exists!");
+				throw new Error("Signup Failed");
+			}
 
 			if (response?.payload.encodedToken) {
-                showToast("Signup Successfull.", "success");
+				showToast("Signup Successfull.", "success");
 				navigate("/");
 			}
-			
 		} catch (error) {
-			showToast("Signup Failed.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
@@ -86,7 +105,9 @@ const SignUp = () => {
 							htmlFor="input-fname"
 							className="auth-form-label"
 						>
-							First Name <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+								First Name
+							</span>
 							<input
 								type="text"
 								id="input-fname"
@@ -105,7 +126,9 @@ const SignUp = () => {
 							htmlFor="input-lname"
 							className="auth-form-label"
 						>
-							Last Name <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+								Last Name
+							</span>
 							<input
 								type="text"
 								id="input-lname"
@@ -124,7 +147,9 @@ const SignUp = () => {
 							htmlFor="input-username"
 							className="auth-form-label"
 						>
-							Username <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+								Username
+							</span>
 							<input
 								type="text"
 								id="input-username"
@@ -143,12 +168,12 @@ const SignUp = () => {
 							htmlFor="input-password"
 							className="auth-form-label"
 						>
-							Password <span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+								Password
+							</span>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
-										showPassword ? "text" : "password"
-									}`}
+									type={showPassword ? "text" : "password"}
 									id="input-password"
 									name="password"
 									placeholder="Password"
@@ -165,7 +190,7 @@ const SignUp = () => {
 								>
 									<FontAwesomeIcon
 										className="text-slate-900"
-										icon={showPassword ? faEye : faEyeSlash}
+										icon={showPassword ? faEyeSlash : faEye}
 									/>
 								</button>
 							</div>
@@ -176,15 +201,16 @@ const SignUp = () => {
 							htmlFor="input-confirm-password"
 							className="auth-form-label"
 						>
-							Confirm Password{" "}
-							<span className="text-red-500">*</span>
+							<span className="label-text relative w-max">
+								Confirm Password
+							</span>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
+									type={
 										showConfirmPassword
 											? "text"
 											: "password"
-									}`}
+									}
 									id="input-confirm-password"
 									name="confirmPassword"
 									className="auth-form-input"
@@ -192,7 +218,7 @@ const SignUp = () => {
 									placeholder="Confirm Password"
 									autoComplete="off"
 									value={confirmPassword}
-									onChange={handleFormDataChange}
+									onChange={handleChangeConfirmPassword}
 								/>
 								<button
 									type="button"
@@ -205,8 +231,8 @@ const SignUp = () => {
 										className="text-slate-900"
 										icon={
 											showConfirmPassword
-												? faEye
-												: faEyeSlash
+												? faEyeSlash
+												: faEye
 										}
 									/>
 								</button>
@@ -221,9 +247,9 @@ const SignUp = () => {
 					<div className="auth-button-containers w-full mt-6 flex flex-col items-center justify-center gap-5">
 						<input
 							type="submit"
-							className={`btn-primary-full disabled:bg-slate-500`}
+							className={`btn-primary-full disabled:disabled-btn`}
 							value="Signup"
-							disabled={authLoading}
+							disabled={authLoading || error}
 						/>
 						<Link to="/login" className="btn-primary-link">
 							Already ReadersSpace member? Login
