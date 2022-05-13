@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .disabled-btn {
+        @apply bg-gray-400 dark:bg-gray-500;
+    }
+}
+
 @layer base {
 	html {
 		font-family: "Poppins", sans-serif;
@@ -65,7 +71,7 @@
 	}
 
 	.active-link {
-		@apply inline-block dark:bg-gray-100 dark:text-slate-900;
+		@apply inline-block dark:bg-gray-100 dark:text-slate-900 bg-gray-200 md:bg-gray-100 text-slate-900;
 	}
 
 	.link {
