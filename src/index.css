@@ -29,6 +29,8 @@
         .grid-container {
             grid-template-columns: 200px 1fr 300px;
         }
+    }
+
     .label-text::after {
         content: '*';
         color: red;
