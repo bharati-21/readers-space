@@ -39,11 +39,11 @@ const Login = () => {
 			if (response?.error) {
 				if (response.payload.includes("404"))
 					throw new Error("Username not found!");
-				throw new Error("Signup Failed");
+				throw new Error("Login Failed");
 			}
 
 			if (response?.payload.encodedToken) {
-				showToast("Signup Successfull.", "success");
+				showToast("Login Successfull.", "success");
 				navigate("/");
 			}
 		} catch (error) {
