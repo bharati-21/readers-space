@@ -4,7 +4,7 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAuthState, loginUser } from "../../authSlice";
+import { getAuthState, loginUser } from "features";
 import { useDocumentTitle, useToast } from "hooks";
 
 const Login = () => {
@@ -35,23 +35,26 @@ const Login = () => {
 		event.preventDefault();
 		try {
 			const response = await dispatch(loginUser(formData));
-            if(response?.error) throw new Error("Login Failed");
-            
-			if (response?.payload.encodedToken) {
-                showToast("Login Successfull.", "success");
-                navigate("/");
-                return;
+
+			if (response?.error) {
+				if (response.payload.includes("404"))
+					throw new Error("Username not found!");
+				throw new Error("Login Failed");
 			}
-			
+
+			if (response?.payload.encodedToken) {
+				showToast("Login Successfull.", "success");
+				navigate("/");
+			}
 		} catch (error) {
-			showToast("Login Failed.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
 	const handleLoginWithTestCredentials = () => {
 		setFormData({
-			username: "adarshbalika",
-			password: "adarshBalika123",
+			username: process.env.REACT_APP_GUEST_USERNAME,
+			password: process.env.REACT_APP_GUEST_PASSWORD,
 		});
 	};
 
@@ -75,9 +78,11 @@ const Login = () => {
 					<div className="form-group w-full">
 						<label
 							htmlFor="input-username"
-							className="auth-form-label"
+							className="auth-form-label username-label"
 						>
-							Username <span className="text-red-500">*</span>
+							<div className="label-text relative w-max">
+								Username
+							</div>
 							<input
 								type="text"
 								id="input-username"
@@ -92,14 +97,14 @@ const Login = () => {
 					<div className="form-group w-full">
 						<label
 							htmlFor="input-password"
-							className="auth-form-label"
+							className="auth-form-label password-label"
 						>
-							Password <span className="text-red-500">*</span>
+							<div className="label-text relative w-max">
+								Password
+							</div>
 							<div className="input-container w-full relative">
 								<input
-									type={`${
-										showPassword ? "text" : "password"
-									}`}
+									type={showPassword ? "text" : "password"}
 									id="input-password"
 									name="password"
 									className="auth-form-input"
@@ -128,7 +133,7 @@ const Login = () => {
 						/>
 						<input
 							type="submit"
-							className="btn-primary-full-outline disabled:text-gray-500"
+							className="btn-primary-full-outline disabled:disabled-btn text-slate-900 dark:text-gray-100"
 							value="Login as Guest"
 							disabled={authLoading}
 							onClick={handleLoginWithTestCredentials}
