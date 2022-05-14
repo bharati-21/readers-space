@@ -8,22 +8,14 @@ import {
 	Add,
 } from "@mui/icons-material";
 import { v4 as uuid } from "uuid";
-import { NewPostModal } from "features";
+import { EDIT_MODAL_VISIBILITY } from "features";
+import { useDispatch } from "react-redux";
 
 const LeftSidebar = () => {
 	const getActiveClassName = ({ isActive }) =>
 		isActive ? `active-link link` : `link`;
 
-	const [showModal, setShowModal] = useState(false);
-
-	useEffect(() => {
-		if (showModal) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "auto";
-		}
-	}, [showModal]);
-
+	const dispatch = useDispatch();
 	const sidebarLinks = [
 		{
 			id: uuid(),
@@ -60,15 +52,13 @@ const LeftSidebar = () => {
 			</li>
 		));
 
-	const handleShowModalDialog = (modalVisibilityState) => {
-		setShowModal(modalVisibilityState);
+	const handleShowModalDialog = (event) => {
+		event.stopPropagation();
+		dispatch(EDIT_MODAL_VISIBILITY(true));
 	};
 
 	return (
 		<>
-			{showModal ? (
-				<NewPostModal handleShowModalDialog={handleShowModalDialog} />
-			) : null}
 			<aside className="sidebar-nav py-8 p-4 pr-8 hidden md:flex flex-col justify-start items-center h-full w-full max-w-[180px]">
 				<div className="flex fixed flex-col justify-between items-center">
 					<ul className="flex list-none flex-col gap-4 justify-center w-full">
@@ -76,7 +66,7 @@ const LeftSidebar = () => {
 					</ul>
 					<button
 						className="btn-primary max-w-[160px] w-full py-1.5 fixed bottom-10"
-						onClick={(e) => handleShowModalDialog(true)}
+						onClick={handleShowModalDialog}
 					>
 						Create New Post
 					</button>
@@ -87,7 +77,7 @@ const LeftSidebar = () => {
 			</ul>
 			<button
 				className="btn-primary md:hidden flex flex-col justify-center items-center w-10 h-10 py-1.5 fixed right-[2rem] bottom-[5rem] z-[5] rounded-[50%]"
-				onClick={(e) => handleShowModalDialog(true)}
+				onClick={handleShowModalDialog}
 			>
 				<Add />
 			</button>
