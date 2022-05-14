@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+	bookmarkPostService,
+	deleteBookmarkedPostService,
 	deletePostService,
 	editPostService,
+	getBookmarksService,
 	getPostsService,
 	postLikeService,
 	postNewPostService,
@@ -12,6 +15,7 @@ const initialState = {
 	posts: [],
 	postsLoading: true,
 	postsError: null,
+	bookmarks: [],
 };
 
 export const getPosts = createAsyncThunk(
@@ -86,6 +90,45 @@ export const unlikePost = createAsyncThunk(
 	}
 );
 
+export const getBookmarks = createAsyncThunk(
+	"user/getBookmarks",
+	async (authToken, { rejectWithValue }) => {
+		try {
+			const { data } = await getBookmarksService(authToken);
+			return data.bookmarks;
+		} catch (error) {
+			return rejectWithValue(error.msg);
+		}
+	}
+);
+
+export const bookmarkPost = createAsyncThunk(
+	"user/bookmarkPost",
+	async ({ authToken, postId }, { rejectWithValue }) => {
+		try {
+			const { data } = await bookmarkPostService(authToken, postId);
+			return data.bookmarks;
+		} catch (error) {
+			return rejectWithValue(error.msg);
+		}
+	}
+);
+
+export const removeBookmarkedPost = createAsyncThunk(
+	"user/removeBookmarkedPost",
+	async ({ authToken, postId }, { rejectWithValue }) => {
+		try {
+			const { data } = await deleteBookmarkedPostService(
+				authToken,
+				postId
+			);
+			return data.bookmarks;
+		} catch (error) {
+			return rejectWithValue(error.msg);
+		}
+	}
+);
+
 const postsSlice = createSlice({
 	name: "posts",
 	initialState,
@@ -139,6 +182,23 @@ const postsSlice = createSlice({
 			})
 			.addCase(unlikePost.fulfilled, (state, action) => {
 				state.posts = action.payload;
+			})
+			.addCase(getBookmarks.pending, (state, action) => {
+				state.postsLoading = true;
+			})
+			.addCase(getBookmarks.fulfilled, (state, action) => {
+				state.postsLoading = false;
+				state.bookmarks = action.payload;
+			})
+			.addCase(getBookmarks.rejected, (state, action) => {
+				state.postsLoading = false;
+				state.postsError = action.payload;
+			})
+			.addCase(bookmarkPost.fulfilled, (state, action) => {
+				state.bookmarks = action.payload;
+			})
+			.addCase(removeBookmarkedPost.fulfilled, (state, action) => {
+				state.bookmarks = action.payload;
 			});
 	},
 });
