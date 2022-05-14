@@ -6,3 +6,6 @@ export { editPostService } from "./post-services/editPostService";
 export { deletePostService } from "./post-services/deletePostService";
 export { postLikeService } from "./post-services/postLikeService";
 export { postUnlikeService } from "./post-services/postUnlikeService";
+export { bookmarkPostService } from "./post-services/bookmarkPostService";
+export { deleteBookmarkedPostService } from "./post-services/deleteBookmarkedPostService";
+export { getBookmarksService } from "./post-services/getBookmarksService";
