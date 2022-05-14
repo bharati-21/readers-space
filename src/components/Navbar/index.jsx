@@ -1,7 +1,7 @@
 import React from "react";
 import logoImage from "images/readers-space-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, logoutUser } from "features";
@@ -28,10 +28,13 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav className="dark:bg-slate-800 navbar sticky top-0 left-0 z-[5]">
+		<nav className="dark:bg-slate-800 navbar sticky top-0 left-0 z-[5] sm:py-0">
 			<div className="max-w-8xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
 				<div className="relative flex items-center justify-between h-16">
-					<div className="flex-shrink-0 flex gap-4 items-center">
+					<Link
+						to="/"
+						className="flex-shrink-0 flex gap-4 items-center"
+					>
 						<img
 							className="h-10 w-auto"
 							src={logoImage}
@@ -40,6 +43,26 @@ const Navbar = () => {
 						<h3 className="hidden md:block font-semibold text-3xl text-sky-400 logo-text">
 							ReadersSpace
 						</h3>
+					</Link>
+					<div className="search-form hidden sm:block">
+						<form>
+							<div className="relative rounded-sm shadow-sm bg-gray-100">
+								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+									<span className="text-gray-400 sm:text-sm">
+										<FontAwesomeIcon
+											icon={faMagnifyingGlass}
+										/>
+									</span>
+								</div>
+								<input
+									type="search"
+									name="searchText"
+									id="searchText"
+									className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
+									placeholder="Enter search text..."
+								/>
+							</div>
+						</form>
 					</div>
 					<div className="flex gap-4 items-center justify-center">
 						{isAuth ? (
@@ -65,6 +88,24 @@ const Navbar = () => {
 						</button>
 					</div>
 				</div>
+			</div>
+			<div className="search-form sm:hidden block px-4 py-2 pb-4">
+				<form>
+					<div className="relative rounded-sm shadow-sm bg-gray-100">
+						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<span className="text-gray-400 sm:text-sm">
+								<FontAwesomeIcon icon={faMagnifyingGlass} />
+							</span>
+						</div>
+						<input
+							type="search"
+							name="searchText"
+							id="searchText"
+							className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
+							placeholder="Enter search text..."
+						/>
+					</div>
+				</form>
 			</div>
 		</nav>
 	);

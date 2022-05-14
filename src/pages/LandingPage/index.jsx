@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import heroImage from "images/hero-image.svg";
 import logoImage from "images/readers-space-logo.png";
+import { useSelector } from "react-redux";
+import { getAuthState } from "features";
 
 const LandingPage = () => {
+
+    const { isAuth } = useSelector(getAuthState);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isAuth) {
+            navigate('/home');
+        }
+    }, []);
+
 	return (
 		<section className="hero flex-col items-center justify-center max-w-5xl mx-auto h-full p-4 md:p-8">
 			<div className="flex flex-col md:flex-row items-center justify-center w-full mx-auto gap-6">
@@ -21,13 +35,16 @@ const LandingPage = () => {
 						Discover Books, Readers, and Friends!
 					</h1>
 					<div className="auth-buttons-container flex flex-col justify-center items-center gap-3">
-						<button className="p-2 min-w-[120px] rounded-sm text-gray-900 bg-sky-400 hover:bg-sky-500 transition-all ease-linear font-medium md:mb-0 mt-6 mb-4">
+						<Link
+							to="/signup"
+							className="btn-primary min-w-[120px] md:mb-0 mt-6 mb-4"
+						>
 							Join Now
-						</button>
-						<button className="hover:text-sky-400 transition-all ease-linear">
+						</Link>
+						<Link to="/login" className="btn-primary-link mt-2">
 							Already have an account?{" "}
 							<span className="underline">Login</span>
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="hero-image shrink grow basis-full">
