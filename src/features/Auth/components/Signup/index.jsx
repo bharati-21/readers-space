@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useDocumentTitle, useToast } from "hooks";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, signupUser } from "features";
 
@@ -65,6 +65,10 @@ const SignUp = () => {
 
 	const handleSignup = async (event) => {
 		event.preventDefault();
+        if(password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
 		try {
 			const response = await dispatch(signupUser(formData));
 
@@ -76,7 +80,7 @@ const SignUp = () => {
 
 			if (response?.payload.encodedToken) {
 				showToast("Signup Successfull.", "success");
-				navigate("/");
+				navigate("/home");
 			}
 		} catch (error) {
 			showToast(error.message, "error");
