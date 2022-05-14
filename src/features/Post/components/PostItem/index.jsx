@@ -5,6 +5,7 @@ import {
 	Bookmark,
 	Comment,
 	MoreHoriz,
+	MoreVert,
 } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { getPostModalState } from "features";
@@ -16,18 +17,24 @@ import {
 	deletePost,
 	likePost,
 	unlikePost,
+	bookmarkPost,
+	removeBookmarkedPost,
+	getPostsState,
 } from "features";
 import { useLoadPostServices, useToast } from "hooks";
 
 const PostItem = ({ post }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
+
 	const {
-		authUser: { username: authUsername },
 		authToken,
+		authUser: { username: authUsername },
 	} = useSelector(getAuthState);
+	const { bookmarks } = useSelector(getPostsState);
+
 	const { isLoadingService, handleChangeLoadingServiceState } =
 		useLoadPostServices();
-	const { loadingLikeService } = isLoadingService;
+	const { loadingLikeService, loadingBookmarkService } = isLoadingService;
 
 	const {
 		content,
@@ -45,12 +52,17 @@ const PostItem = ({ post }) => {
 		getIsPostLikedByAuthUser()
 	);
 
+	const getIsPostInBookmarks = () => bookmarks.includes(_id);
+
+	const [isPostInBookmarks, setIsPostInBookmarks] = useState(
+		getIsPostInBookmarks()
+	);
+
 	useEffect(() => {
 		setIsPostLikedByAuthUser(getIsPostLikedByAuthUser());
-	}, [likeCount]);
+		setIsPostInBookmarks(getIsPostInBookmarks());
+	}, [likedBy, bookmarks]);
 
-	const postModal = useSelector(getPostModalState);
-	const { postModalVisibilityState } = postModal;
 	const dispatch = useDispatch();
 
 	const { showToast } = useToast();
@@ -102,6 +114,29 @@ const PostItem = ({ post }) => {
 		handleChangeLoadingServiceState("loadingLikeService", false);
 	};
 
+	const handleBookmarkStateChange = async (event) => {
+		handleChangeLoadingServiceState("loadingBookmarkService", true);
+
+		try {
+			const response = isPostInBookmarks
+				? await dispatch(
+						removeBookmarkedPost({ authToken, postId: _id })
+				  )
+				: await dispatch(bookmarkPost({ authToken, postId: _id }));
+			if (response?.error) {
+				throw new Error(
+					isPostInBookmarks
+						? "Could not remove the post from bookmarks. Please try again later."
+						: "Could not bookmark the post. Please try again later."
+				);
+			}
+		} catch (error) {
+			showToast(error.message, "error");
+		}
+
+		handleChangeLoadingServiceState("loadingBookmarkService", false);
+	};
+
 	const likeMessage =
 		likeCount === 0
 			? "Be the first of your friends to like this!"
@@ -111,35 +146,16 @@ const PostItem = ({ post }) => {
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm cursor-pointer gap-6 shadow-sm">
 			<div className="flex flex-row items-start justify-between gap-4 w-full rounded-sm">
 				<img
-					className="inline-block h-10 w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
+					className="inline-block w-8 h-8 md:h-10 md:w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
 					src="https://i.pravatar.cc/200"
 					alt="Jane Doe Profile Image"
 				/>
 				<div className="flex flex-col items-start justify-between w-full gap-4">
-					<div className="h4 text-lg">{username}</div>
+					<div className="h4 text-base md:text-lg">{username}</div>
 					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm">
 						{content}
 					</div>
 				</div>
-			</div>
-			<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
-				<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
-				{likeMessage}
-			</div>
-			<div className="flex flex-row justify-between items-center">
-				<button
-					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
-					onClick={handlePostLikeChange}
-					disabled={loadingLikeService}
-				>
-					{isPostLikedByAuthUser ? <Favorite /> : <FavoriteBorder />}
-				</button>
-				<button className="text-sky-400 hover:text-sky-500">
-					<Comment />
-				</button>
-				<button className="text-sky-400 hover:text-sky-500">
-					<BookmarkBorder />
-				</button>
 				{authUsername === username ? (
 					<div className="more-options-container relative">
 						<button
@@ -168,6 +184,29 @@ const PostItem = ({ post }) => {
 						</div>
 					</div>
 				) : null}
+			</div>
+			<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
+				<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
+				{likeMessage}
+			</div>
+			<div className="flex flex-row justify-between items-center">
+				<button
+					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+					onClick={handlePostLikeChange}
+					disabled={loadingLikeService}
+				>
+					{isPostLikedByAuthUser ? <Favorite /> : <FavoriteBorder />}
+				</button>
+				<button className="text-sky-400 hover:text-sky-500">
+					<Comment />
+				</button>
+				<button
+					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+					onClick={handleBookmarkStateChange}
+					disabled={loadingBookmarkService}
+				>
+					{isPostInBookmarks ? <Bookmark /> : <BookmarkBorder />}
+				</button>
 			</div>
 		</div>
 	);
