@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "store";
 import ToastPortal from "ToastPortal";
+import ModalPortal from "ModalPortal";
 
 // Call make Server
 makeServer();
@@ -17,6 +18,7 @@ ReactDOM.render(
 			<Provider store={store}>
 				<App />
 				<ToastPortal />
+				<ModalPortal />
 			</Provider>
 		</BrowserRouter>
 	</React.StrictMode>,
