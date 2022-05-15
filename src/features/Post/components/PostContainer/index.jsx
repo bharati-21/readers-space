@@ -2,17 +2,34 @@ import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import Picker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthState } from "features";
 import { useToast } from "hooks";
-import { postNewPost } from "features";
+import {
+	postNewPost,
+	getAuthState,
+	EDIT_MODAL_VISIBILITY,
+	SET_POST_TO_BE_EDITED,
+	getPostModalState,
+	editPost,
+} from "features";
 
-const PostContainer = () => {
+const PostContainer = ({ container }) => {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const [postData, setPostData] = useState("");
-	const [wordCount, setWordCount] = useState(250);
 	const dispatch = useDispatch();
 	const { authToken } = useSelector(getAuthState);
 	const { showToast } = useToast();
+	const postModal = useSelector(getPostModalState);
+	const { postModalVisibilityState, postToBeEdited } = postModal;
+
+	const editPostMode = !container
+		? false
+		: Object.keys(postToBeEdited).length
+		? true
+		: false;
+
+	const [postData, setPostData] = useState(
+		editPostMode ? postToBeEdited.content : ""
+	);
+	const [wordCount, setWordCount] = useState(250 - postData.length);
 
 	const handleEmojiPickerVisibilityChange = (event) =>
 		setShowEmojiPicker((prevShowEmojiPicker) => !prevShowEmojiPicker);
@@ -31,18 +48,43 @@ const PostContainer = () => {
 
 	const handleCreatePost = async (event) => {
 		event.preventDefault();
+		if (postModalVisibilityState) {
+			dispatch(EDIT_MODAL_VISIBILITY(false));
+			dispatch(SET_POST_TO_BE_EDITED({}));
+			setPostData("");
+		}
 		try {
-			const response = await dispatch(
-				postNewPost({ authToken, postData: { content: postData } })
-			);
+			const response = editPostMode
+				? await dispatch(
+						editPost({
+							authToken,
+							postData: {
+								...postToBeEdited,
+								content: postData.trim(),
+							},
+						})
+				  )
+				: await dispatch(
+						postNewPost({
+							authToken,
+							postData: { content: postData },
+						})
+				  );
 			if (response.error)
 				throw new Error(
-					"Failed to creat post. Please try again later.",
+					editPostMode
+						? "Failed to edit post. Please try again later."
+						: "Failed to creat post. Please try again later.",
 					"error"
 				);
-			showToast("Created post successfully.", "success");
+			showToast(
+				editPostMode
+					? "Edited post successfully."
+					: "Created post successfully.",
+				"success"
+			);
 		} catch (error) {
-			showToast("Could not creat a post. Please try again.", "error");
+			showToast(error.message, "error");
 		}
 	};
 
@@ -59,7 +101,7 @@ const PostContainer = () => {
 				/>
 				<TextareaAutosize
 					minRows="3"
-					className="outline-none transition-all ease-in resize-none bg-inherit dark:text-gray-100 text-slate-900 border-none max-h-[30vh] rounded-sm"
+					className="outline-none transition-all ease-in resize-none bg-inherit dark:text-gray-100 text-slate-900 border-none max-h-[30vh] rounded-sm h-max"
 					placeholder="What's happening?"
 					value={postData}
 					onChange={handlePostDataChange}
@@ -70,7 +112,7 @@ const PostContainer = () => {
 					<div className="emoji-picker-container">
 						<button
 							type="button"
-							class="btn-primary py-0.5 px-1"
+							className="btn-primary py-0.5 px-1"
 							onClick={handleEmojiPickerVisibilityChange}
 						>
 							😀
@@ -100,9 +142,14 @@ const PostContainer = () => {
 					<button
 						type="submit"
 						className="disabled:disabled-btn btn-primary py-1 px-4"
-						disabled={wordCount < 0 || wordCount === 250}
+						disabled={
+							wordCount < 0 ||
+							wordCount === 250 ||
+							(editPostMode &&
+								postData === postToBeEdited.content)
+						}
 					>
-						Post
+						{editPostMode ? "Save" : "Post"}
 					</button>
 				</div>
 			</div>

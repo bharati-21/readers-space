@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getPostsService, postNewPostService } from "services";
+import {
+	deletePostService,
+	editPostService,
+	getPostsService,
+	postNewPostService,
+} from "services";
 
 const initialState = {
 	posts: [],
@@ -24,6 +29,30 @@ export const postNewPost = createAsyncThunk(
 	async ({ authToken, postData }, { rejectWithValue }) => {
 		try {
 			const { data } = await postNewPostService(authToken, postData);
+			return data.posts;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const editPost = createAsyncThunk(
+	"posts/editPost",
+	async ({ authToken, postData }, { rejectWithValue }) => {
+		try {
+			const { data } = await editPostService(authToken, postData);
+			return data.posts;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const deletePost = createAsyncThunk(
+	"posts/deletePost",
+	async ({ authToken, postId }, { rejectWithValue }) => {
+		try {
+			const { data } = await deletePostService(authToken, postId);
 			return data.posts;
 		} catch (error) {
 			return rejectWithValue(error.message);
@@ -57,6 +86,26 @@ const postsSlice = createSlice({
 				state.postsLoading = false;
 			})
 			.addCase(postNewPost.rejected, (state, action) => {
+				state.postsLoading = false;
+			})
+			.addCase(editPost.pending, (state) => {
+				state.postsLoading = true;
+			})
+			.addCase(editPost.fulfilled, (state, action) => {
+				state.posts = action.payload;
+				state.postsLoading = false;
+			})
+			.addCase(editPost.rejected, (state, action) => {
+				state.postsLoading = false;
+			})
+			.addCase(deletePost.pending, (state) => {
+				state.postsLoading = true;
+			})
+			.addCase(deletePost.fulfilled, (state, action) => {
+				state.posts = action.payload;
+				state.postsLoading = false;
+			})
+			.addCase(deletePost.rejected, (state, action) => {
 				state.postsLoading = false;
 			});
 	},
