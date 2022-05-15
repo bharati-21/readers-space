@@ -9,3 +9,4 @@ export { postUnlikeService } from "./post-services/postUnlikeService";
 export { bookmarkPostService } from "./post-services/bookmarkPostService";
 export { deleteBookmarkedPostService } from "./post-services/deleteBookmarkedPostService";
 export { getBookmarksService } from "./post-services/getBookmarksService";
+export { postCommentService } from "./post-services/postCommentService";
