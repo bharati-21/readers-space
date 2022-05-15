@@ -65,6 +65,10 @@ const SignUp = () => {
 
 	const handleSignup = async (event) => {
 		event.preventDefault();
+        if(password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
 		try {
 			const response = await dispatch(signupUser(formData));
 
