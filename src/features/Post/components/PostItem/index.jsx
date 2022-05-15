@@ -5,11 +5,11 @@ import {
 	Bookmark,
 	Comment,
 	MoreHoriz,
-	MoreVert,
 } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
-import { getPostModalState } from "features";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+
 import {
 	EDIT_MODAL_VISIBILITY,
 	SET_POST_TO_BE_EDITED,
@@ -21,9 +21,9 @@ import {
 	removeBookmarkedPost,
 	getPostsState,
 } from "features";
-import { useLoadPostServices, useToast } from "hooks";
+import { useToast } from "hooks";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, location }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
 
 	const {
@@ -32,15 +32,25 @@ const PostItem = ({ post }) => {
 	} = useSelector(getAuthState);
 	const { bookmarks } = useSelector(getPostsState);
 
-	const { isLoadingService, handleChangeLoadingServiceState } =
-		useLoadPostServices();
+	const [isLoadingService, setIsLoadingService] = useState({
+		loadingLikeService: false,
+		loadingBookmarkService: false,
+	});
+
 	const { loadingLikeService, loadingBookmarkService } = isLoadingService;
+
+	const handleChangeLoadingServiceState = (loadingService, state) =>
+		setIsLoadingService((prevIsLoadingService) => ({
+			...prevIsLoadingService,
+			[loadingService]: state,
+		}));
 
 	const {
 		content,
 		username,
 		_id,
 		likes: { likeCount, likedBy },
+		comments,
 	} = post;
 
 	const getIsPostLikedByAuthUser = () =>
@@ -67,17 +77,24 @@ const PostItem = ({ post }) => {
 
 	const { showToast } = useToast();
 
-	const handleShowMoreOptionsChange = (event) =>
+	const navigate = useNavigate();
+
+	const handleShowMoreOptionsChange = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
 		setShowMoreOptions((prevShowMoreOptions) => !prevShowMoreOptions);
+	};
 
 	const handleEditPost = (event) => {
 		event.stopPropagation();
+		event.preventDefault();
 		dispatch(SET_POST_TO_BE_EDITED(post));
 		dispatch(EDIT_MODAL_VISIBILITY(true));
 	};
 
 	const handleDeletePost = async (event) => {
 		event.stopPropagation();
+		event.preventDefault();
 		try {
 			const response = await dispatch(
 				deletePost({ authToken, postId: _id })
@@ -91,9 +108,13 @@ const PostItem = ({ post }) => {
 		} catch (error) {
 			showToast(error.message, "error");
 		}
+		if (location === "singlePost") navigate("/home");
 	};
 
 	const handlePostLikeChange = async (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+
 		handleChangeLoadingServiceState("loadingLikeService", true);
 
 		try {
@@ -115,6 +136,8 @@ const PostItem = ({ post }) => {
 	};
 
 	const handleBookmarkStateChange = async (event) => {
+		event.stopPropagation();
+		event.preventDefault();
 		handleChangeLoadingServiceState("loadingBookmarkService", true);
 
 		try {
@@ -137,13 +160,11 @@ const PostItem = ({ post }) => {
 		handleChangeLoadingServiceState("loadingBookmarkService", false);
 	};
 
-	const likeMessage =
-		likeCount === 0
-			? "Be the first of your friends to like this!"
-			: likeCount;
-
 	return (
-		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm cursor-pointer gap-6 shadow-sm">
+		<Link
+			to={`/post/${_id}`}
+			className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm cursor-pointer gap-6 shadow-sm"
+		>
 			<div className="flex flex-row items-start justify-between gap-4 w-full rounded-sm">
 				<img
 					className="inline-block w-8 h-8 md:h-10 md:w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
@@ -152,7 +173,7 @@ const PostItem = ({ post }) => {
 				/>
 				<div className="flex flex-col items-start justify-between w-full gap-4">
 					<div className="h4 text-base md:text-lg">{username}</div>
-					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm">
+					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap">
 						{content}
 					</div>
 				</div>
@@ -185,20 +206,36 @@ const PostItem = ({ post }) => {
 					</div>
 				) : null}
 			</div>
-			<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
-				<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
-				{likeMessage}
-			</div>
+			{likeCount === 0 ? (
+				<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
+					<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
+					Be the first of your friends to like this!
+				</div>
+			) : null}
 			<div className="flex flex-row justify-between items-center">
 				<button
-					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn flex flex-row items-end justify-center gap-1 h-max"
 					onClick={handlePostLikeChange}
 					disabled={loadingLikeService}
 				>
-					{isPostLikedByAuthUser ? <Favorite /> : <FavoriteBorder />}
+					<span className="like-icon">
+						{isPostLikedByAuthUser ? (
+							<Favorite />
+						) : (
+							<FavoriteBorder />
+						)}
+					</span>
+					{likeCount > 0 ? (
+						<span className="like-count text-base">
+							{likeCount}
+						</span>
+					) : null}
 				</button>
-				<button className="text-sky-400 hover:text-sky-500">
-					<Comment />
+				<button className="text-sky-400 hover:text-sky-500 flex flex-row items-end justify-center gap-1">
+					<span className="like-icon">
+						<Comment />
+					</span>
+					{comments?.length}
 				</button>
 				<button
 					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
@@ -208,7 +245,9 @@ const PostItem = ({ post }) => {
 					{isPostInBookmarks ? <Bookmark /> : <BookmarkBorder />}
 				</button>
 			</div>
-		</div>
+
+			<Outlet context={post} />
+		</Link>
 	);
 };
 
