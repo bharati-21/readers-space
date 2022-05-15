@@ -6,6 +6,7 @@ import {
 	editPostService,
 	getBookmarksService,
 	getPostsService,
+	postCommentService,
 	postLikeService,
 	postNewPostService,
 	postUnlikeService,
@@ -124,7 +125,23 @@ export const removeBookmarkedPost = createAsyncThunk(
 			);
 			return data.bookmarks;
 		} catch (error) {
-			return rejectWithValue(error.msg);
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const addCommentToPost = createAsyncThunk(
+	"posts/addCommentToPost",
+	async ({ authToken, postId, commentData }, { rejectWithValue }) => {
+		try {
+			const { data } = await postCommentService(
+				authToken,
+				postId,
+				commentData
+			);
+			return { comments: data.comments, postId };
+		} catch (error) {
+			return rejectWithValue(error.message);
 		}
 	}
 );
@@ -199,6 +216,12 @@ const postsSlice = createSlice({
 			})
 			.addCase(removeBookmarkedPost.fulfilled, (state, action) => {
 				state.bookmarks = action.payload;
+			})
+			.addCase(addCommentToPost.fulfilled, (state, action) => {
+				const postIndex = state.posts.findIndex(
+					(post) => post._id === action.payload.postId
+				);
+				state.posts[postIndex].comments = action.payload.comments;
 			});
 	},
 });
