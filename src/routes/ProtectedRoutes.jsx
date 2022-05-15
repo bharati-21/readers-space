@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
-
 import { useSelector } from "react-redux";
+
 import { getAuthState } from "features";
 import { LeftSidebar, RightSidebar } from "components";
 
