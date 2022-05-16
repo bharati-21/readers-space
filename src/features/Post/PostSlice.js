@@ -3,7 +3,9 @@ import {
 	deletePostService,
 	editPostService,
 	getPostsService,
+	postLikeService,
 	postNewPostService,
+	postUnlikeService,
 } from "services";
 
 const initialState = {
@@ -60,6 +62,30 @@ export const deletePost = createAsyncThunk(
 	}
 );
 
+export const likePost = createAsyncThunk(
+	"posts/likePost",
+	async ({ authToken, postId }, { rejectWithValue }) => {
+		try {
+			const { data } = await postLikeService(authToken, postId);
+			return data.posts;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const unlikePost = createAsyncThunk(
+	"posts/unlilePost",
+	async ({ authToken, postId }, { rejectWithValue }) => {
+		try {
+			const { data } = await postUnlikeService(authToken, postId);
+			return data.posts;
+		} catch (error) {
+			return rejectWithValue(error.msg);
+		}
+	}
+);
+
 const postsSlice = createSlice({
 	name: "posts",
 	initialState,
@@ -107,6 +133,12 @@ const postsSlice = createSlice({
 			})
 			.addCase(deletePost.rejected, (state, action) => {
 				state.postsLoading = false;
+			})
+			.addCase(likePost.fulfilled, (state, action) => {
+				state.posts = action.payload;
+			})
+			.addCase(unlikePost.fulfilled, (state, action) => {
+				state.posts = action.payload;
 			});
 	},
 });

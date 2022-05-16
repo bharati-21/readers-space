@@ -6,15 +6,25 @@
 @tailwind utilities;
 
 @layer utilities {
-    .disabled-btn {
-        @apply bg-gray-400 dark:bg-gray-500;
-    }
+	.disabled-btn {
+		@apply bg-gray-400 dark:bg-gray-500;
+	}
+
+	.disabled-icon-btn {
+		@apply text-gray-400 dark:text-gray-500;
+	}
 }
 
 @layer base {
 	html {
 		font-family: "Poppins", sans-serif;
-        box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	*,
+	*::after,
+	*::before {
+		box-sizing: inherit;
 	}
 
     *, *::after, *::before {
@@ -26,23 +36,27 @@
 	}
 
 	@media screen and (min-width: 768px) {
-        .grid-container {
-            grid-template-columns: 200px 1fr;
-        }
-    }
+		.grid-container {
+			grid-template-columns: 200px 1fr;
+		}
+	}
 
-    @media screen and (min-width: 992px) {
-        .grid-container {
-            grid-template-columns: 200px 1fr 300px;
-        }
-    }
+	@media screen and (min-width: 992px) {
+		.grid-container {
+			grid-template-columns: 200px 1fr 300px;
+		}
+	}
 
-    .label-text::after {
-        content: '*';
-        color: red;
-        position: absolute;
-        right: -10px;
-    }
+	.label-text::after {
+		content: "*";
+		color: red;
+		position: absolute;
+		right: -10px;
+	}
+
+	svg.favorite-icon {
+		font-size: 1.15rem;
+	}
 }
 
 @layer components {

@@ -6,7 +6,7 @@ import {
 	Comment,
 	MoreHoriz,
 } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getPostModalState } from "features";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,8 +14,10 @@ import {
 	SET_POST_TO_BE_EDITED,
 	getAuthState,
 	deletePost,
+	likePost,
+	unlikePost,
 } from "features";
-import { useToast } from "hooks";
+import { useLoadPostServices, useToast } from "hooks";
 
 const PostItem = ({ post }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
@@ -23,8 +25,29 @@ const PostItem = ({ post }) => {
 		authUser: { username: authUsername },
 		authToken,
 	} = useSelector(getAuthState);
+	const { isLoadingService, handleChangeLoadingServiceState } =
+		useLoadPostServices();
+	const { loadingLikeService } = isLoadingService;
 
-	const { content, username, _id } = post;
+	const {
+		content,
+		username,
+		_id,
+		likes: { likeCount, likedBy },
+	} = post;
+
+	const getIsPostLikedByAuthUser = () =>
+		likedBy.find((likedUsers) => likedUsers.username === authUsername)
+			? true
+			: false;
+
+	const [isPostLikedByAuthUser, setIsPostLikedByAuthUser] = useState(
+		getIsPostLikedByAuthUser()
+	);
+
+	useEffect(() => {
+		setIsPostLikedByAuthUser(getIsPostLikedByAuthUser());
+	}, [likeCount]);
 
 	const postModal = useSelector(getPostModalState);
 	const { postModalVisibilityState } = postModal;
@@ -58,6 +81,32 @@ const PostItem = ({ post }) => {
 		}
 	};
 
+	const handlePostLikeChange = async (event) => {
+		handleChangeLoadingServiceState("loadingLikeService", true);
+
+		try {
+			const response = isPostLikedByAuthUser
+				? await dispatch(unlikePost({ authToken, postId: _id }))
+				: await dispatch(likePost({ authToken, postId: _id }));
+			if (response?.error) {
+				throw new Error(
+					isPostLikedByAuthUser
+						? "Could not unlike the post. Please try again later."
+						: "Could not like the post. Please try again later."
+				);
+			}
+		} catch (error) {
+			showToast(error.message, "error");
+		}
+
+		handleChangeLoadingServiceState("loadingLikeService", false);
+	};
+
+	const likeMessage =
+		likeCount === 0
+			? "Be the first of your friends to like this!"
+			: likeCount;
+
 	return (
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm cursor-pointer gap-6 shadow-sm">
 			<div className="flex flex-row items-start justify-between gap-4 w-full rounded-sm">
@@ -73,9 +122,17 @@ const PostItem = ({ post }) => {
 					</div>
 				</div>
 			</div>
+			<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
+				<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
+				{likeMessage}
+			</div>
 			<div className="flex flex-row justify-between items-center">
-				<button className="text-sky-400 hover:text-sky-500">
-					<FavoriteBorder />
+				<button
+					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+					onClick={handlePostLikeChange}
+					disabled={loadingLikeService}
+				>
+					{isPostLikedByAuthUser ? <Favorite /> : <FavoriteBorder />}
 				</button>
 				<button className="text-sky-400 hover:text-sky-500">
 					<Comment />
