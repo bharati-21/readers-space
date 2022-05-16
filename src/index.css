@@ -27,6 +27,16 @@
 		box-sizing: inherit;
 	}
 
+	*,
+	*::after,
+	*::before {
+		box-sizing: inherit;
+	}
+
+    *, *::after, *::before {
+        box-sizing: inherit;
+    }
+
 	.logo-text {
 		font-family: "Architects Daughter", sans-serif;
 	}
