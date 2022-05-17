@@ -4,3 +4,4 @@ export { LeftSidebar } from "./LeftSidebar";
 export { RightSidebar } from "./RightSidebar";
 export { Loader } from "./Loader";
 export { CircleProgressBar } from "./CirlceProgress";
+export { PostModal } from "./PostModal";
