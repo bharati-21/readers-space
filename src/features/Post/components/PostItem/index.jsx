@@ -49,14 +49,13 @@ const PostItem = ({ post }) => {
 			: false;
 
 	const [isPostLikedByAuthUser, setIsPostLikedByAuthUser] = useState(
-		getIsPostLikedByAuthUser()
+		getIsPostLikedByAuthUser
 	);
 
 	const getIsPostInBookmarks = () => bookmarks.includes(_id);
 
-	const [isPostInBookmarks, setIsPostInBookmarks] = useState(
-		getIsPostInBookmarks()
-	);
+	const [isPostInBookmarks, setIsPostInBookmarks] =
+		useState(getIsPostInBookmarks);
 
 	useEffect(() => {
 		setIsPostLikedByAuthUser(getIsPostLikedByAuthUser());
