@@ -12,6 +12,7 @@ const SignUp = () => {
 	const auth = useSelector(getAuthState);
 	const { showToast } = useToast();
 	const navigate = useNavigate();
+    const location = useLocation();
 
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -80,7 +81,7 @@ const SignUp = () => {
 
 			if (response?.payload.encodedToken) {
 				showToast("Signup Successfull.", "success");
-				navigate("/home");
+				navigate(location?.state?.from ?? "/home", { replace: true });
 			}
 		} catch (error) {
 			showToast(error.message, "error");

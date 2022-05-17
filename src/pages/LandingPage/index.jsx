@@ -13,7 +13,7 @@ const LandingPage = () => {
 
 	useEffect(() => {
 		if (isAuth) {
-			navigate("/home");
+			navigate("/home", { replace: true });
 		}
 	}, []);
 
