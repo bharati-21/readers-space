@@ -6,28 +6,28 @@ import { useToast } from "hooks";
 import {
 	postNewPost,
 	getAuthState,
-	EDIT_MODAL_VISIBILITY,
-	SET_POST_TO_BE_EDITED,
-	getPostModalState,
+	editModalVisibility,
+	getModalState,
 	editPost,
 } from "features";
+import { setPostToEdit } from "features/Modal/modalSlice";
 
 const PostContainer = ({ container }) => {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const dispatch = useDispatch();
 	const { authToken } = useSelector(getAuthState);
 	const { showToast } = useToast();
-	const postModal = useSelector(getPostModalState);
-	const { postModalVisibilityState, postToBeEdited } = postModal;
+	const modal = useSelector(getModalState);
+	const { modalVisibilityState, postToEdit } = modal;
 
 	const editPostMode = !container
 		? false
-		: Object.keys(postToBeEdited).length
+		: Object.keys(postToEdit).length
 		? true
 		: false;
 
 	const [postData, setPostData] = useState(
-		editPostMode ? postToBeEdited.content : ""
+		editPostMode ? postToEdit.content : ""
 	);
 	const [wordCount, setWordCount] = useState(250 - postData.length);
 
@@ -48,9 +48,14 @@ const PostContainer = ({ container }) => {
 
 	const handleCreatePost = async (event) => {
 		event.preventDefault();
-		if (postModalVisibilityState) {
-			dispatch(EDIT_MODAL_VISIBILITY(false));
-			dispatch(SET_POST_TO_BE_EDITED({}));
+		if (modalVisibilityState) {
+			dispatch(
+				editModalVisibility({
+					modalVisibilityState: false,
+					modalChildren: "POST_MODAL",
+				})
+			);
+			dispatch(setPostToEdit({}));
 			setPostData("");
 		}
 		try {
@@ -59,7 +64,7 @@ const PostContainer = ({ container }) => {
 						editPost({
 							authToken,
 							postData: {
-								...postToBeEdited,
+								...postToEdit,
 								content: postData.trim(),
 							},
 						})
@@ -145,8 +150,7 @@ const PostContainer = ({ container }) => {
 						disabled={
 							wordCount < 0 ||
 							wordCount === 250 ||
-							(editPostMode &&
-								postData === postToBeEdited.content)
+							(editPostMode && postData === postToEdit.content)
 						}
 					>
 						{editPostMode ? "Save" : "Post"}
