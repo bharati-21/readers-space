@@ -16,7 +16,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "A very adarsh developer balika",
 		profileImage:
-			"https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=461&q=80",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
 		website: "https://adarshbalika.netlify.app/",
 		followers: ["shubhamsoni", "bhaaratii", "johndoe", "janedoe"],
 		following: ["shubhamsoni", "johndoe", "janedoe", "hergranger"],
@@ -31,7 +31,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Loves Code, Books, Coffee, and Songs in no particular order!",
 		profileImage:
-			"https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721963/photo-1633332755192-727a05c4013d_qo2tty.jpg",
 		website: "https://www.shubhamsoni.me/",
 		followers: ["adarshbalika", "bhaaratii", "annachase", "percyblues"],
 		following: ["adarshbalika", "bhaaratii", "janedoe"],
@@ -46,7 +46,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Loves Code, Books, Coffee, and Songs in no particular order!",
 		profileImage:
-			"https://pbs.twimg.com/profile_images/1418817136349360129/LEwV3Q71_400x400.jpg",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721980/Bharati2_qxscpm.png",
 		website: "bharati-21.github.io",
 		followers: ["shubhamsoni", "hergranger", "youknowhow"],
 		following: [
@@ -67,7 +67,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Graphic Design | UI/ UX Design | Photography",
 		profileImage:
-			"https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721997/photo-1531427186611-ecfd6d936c79_tmpw71.jpg",
 		website: "https://johndoe-portfolio.netlify.app/",
 		followers: ["adarshbalika", "janedoe", "hergranger", "percyblues"],
 		following: ["adarshbalika", "janedoe", "youknowwho"],
@@ -82,7 +82,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Web Developer",
 		profileImage:
-			"https://raw.githubusercontent.com/PhantomScript/asset-container/main/developer-portfolio/landingImg.png",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652722016/landingImg_dff0ku.png",
 		website: "https://dev-portfolio-template.netlify.app/",
 		followers: ["adarshbalika", "shubhamsoni", "johndoe", "annachase"],
 		following: ["adarshbalika", "johndoe", "youknowwho"],
@@ -97,7 +97,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Web Developer",
 		profileImage:
-			"https://static.wikia.nocookie.net/harrypotter/images/3/34/Hermione_Granger.jpg/revision/latest?cb=20210522145306",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652722029/latest_ccm17c.jpg",
 		website: "https://harrypotter.fandom.com/wiki/Hermione_Granger",
 		followers: ["adarshbalika", "bhaaratii", "annachase", "percyblues"],
 		following: ["bhaaratii", "johndoe", "annachase", "percyblues"],
@@ -112,7 +112,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Architecht | Demigod | Daughter of Athena",
 		profileImage:
-			"https://static.wikia.nocookie.net/olympians/images/c/ca/Annabeth_Chase-Viria.jpg/revision/latest/scale-to-width-down/596?cb=20170220200242",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
 		website: "https://riordan.fandom.com/wiki/Annabeth_Chase",
 		followers: ["bhaaratii", "hergranger", "percyblues", "youknowwho"],
 		following: ["shubhamsoni", "janedoe", "hergranger", "percyblues"],
@@ -127,7 +127,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Demigod | Son of Poseidon | Loves Annabeth and all food blue!",
 		profileImage:
-			"https://static.wikia.nocookie.net/olympians/images/1/10/Percy_Jackson.jpg/revision/latest/scale-to-width-down/596?cb=20180319172727",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652722054/596_pkjzf6.jpg",
 		website: "https://riordan.fandom.com/wiki/Percy_Jackson",
 		followers: ["bhaaratii", "hergranger", "percyblues", "youknowwho"],
 		following: ["shubhamsoni", "johndoe", "hergranger", "annachase"],
@@ -142,7 +142,7 @@ export const users = [
 		updatedAt: formatDate(),
 		bio: "Passionate Graphic Designer from New York",
 		profileImage:
-			"https://bootstrapmade.com/demo/templates/iPortfolio/assets/img/profile-img.jpg",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652722175/profile-img_nxszbk.jpg",
 		website: "https://bootstrapmade.com/demo/templates/iPortfolio/",
 		followers: ["johndoe", "janedoe"],
 		following: ["bhaaratii", "annachase", "percyblues"],
