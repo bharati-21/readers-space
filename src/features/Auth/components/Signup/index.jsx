@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useDocumentTitle, useToast } from "hooks";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, signupUser } from "features";
 
@@ -12,6 +12,7 @@ const SignUp = () => {
 	const auth = useSelector(getAuthState);
 	const { showToast } = useToast();
 	const navigate = useNavigate();
+    const location = useLocation();
 
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -80,7 +81,7 @@ const SignUp = () => {
 
 			if (response?.payload.encodedToken) {
 				showToast("Signup Successfull.", "success");
-				navigate("/home");
+				navigate(location?.state?.from ?? "/home", { replace: true });
 			}
 		} catch (error) {
 			showToast(error.message, "error");
