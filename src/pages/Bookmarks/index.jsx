@@ -1,28 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAuthState } from "features/Auth/authSlice";
-import { useDocumentTitle, useToast } from "hooks";
-import { getPosts, getPostsState, PostContainer, PostsList } from "features";
+import { getAuthState, getBookmarks, getPostsState, PostsList } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader } from "components";
+import { useDocumentTitle, useToast } from "hooks";
 
-const Home = () => {
+const Bookmarks = () => {
+	const { posts, bookmarks, postsLoading, postsError } =
+		useSelector(getPostsState);
 	const { authToken } = useSelector(getAuthState);
 	const dispatch = useDispatch();
-	const { posts, postsLoading, postsError } = useSelector(getPostsState);
 	const { showToast } = useToast();
 
 	const { setDocumentTitle } = useDocumentTitle();
 
 	useEffect(() => {
-		setDocumentTitle("ReadersSpace | Home");
+		setDocumentTitle("ReadersSpace | Bookmarks");
 		(async () => {
 			try {
-				const response = await dispatch(getPosts(authToken));
-				if (response.error)
+				const response = await dispatch(getBookmarks(authToken));
+				if (response?.error)
 					throw new Error(
-						"Could not get posts. Try again later",
+						"Could not load bookmarks. Please try again later",
 						"error"
 					);
 			} catch (error) {
@@ -30,6 +30,10 @@ const Home = () => {
 			}
 		})();
 	}, []);
+
+	const bookmarkedPosts = posts.filter((post) =>
+		bookmarks.includes(post._id)
+	);
 
 	return postsLoading ? (
 		<Loader />
@@ -46,13 +50,16 @@ const Home = () => {
 			/>
 		</section>
 	) : (
-		<section className="home p-8 px-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full">
-			<div className="posts-container relative w-full">
-				<PostContainer />
-			</div>
-			<PostsList posts={posts} />
+		<section className="px-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full">
+			{bookmarks.length ? (
+				<PostsList posts={bookmarkedPosts} />
+			) : (
+				<h3 className="text-2xl font-semibold pt-20 text-center sm:mt-5 mt-16">
+					You don't have any posts bookmarked!
+				</h3>
+			)}
 		</section>
 	);
 };
 
-export { Home };
+export { Bookmarks };

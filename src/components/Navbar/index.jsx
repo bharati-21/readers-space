@@ -12,20 +12,17 @@ import { getAuthState, logoutUser } from "features";
 import { useToast } from "hooks";
 
 const Navbar = () => {
-	const getSystemPreferenceThemeOrSavedTheme = () => {
-		return (
-			localStorage.getItem("readers-space-theme") ||
-			(window.matchMedia("(prefers-color-scheme: dark)").matches
-				? "dark"
-				: "light")
-		);
-	};
+	const getSystemPreferenceThemeOrSavedTheme = () =>
+		localStorage.getItem("readers-space-theme") ||
+		(window.matchMedia("(prefers-color-scheme: dark)").matches
+			? "dark"
+			: "light");
 
 	const auth = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { showToast } = useToast();
 	const navigate = useNavigate();
-	const [theme, setTheme] = useState(getSystemPreferenceThemeOrSavedTheme());
+	const [theme, setTheme] = useState(getSystemPreferenceThemeOrSavedTheme);
 
 	const { isAuth } = auth;
 
@@ -55,7 +52,7 @@ const Navbar = () => {
 			<div className="max-w-8xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
 				<div className="relative flex items-center justify-between h-16">
 					<Link
-						to="/"
+						to={isAuth ? "/home" : "/"}
 						className="flex-shrink-0 flex gap-4 items-center"
 					>
 						<img
@@ -67,26 +64,29 @@ const Navbar = () => {
 							ReadersSpace
 						</h3>
 					</Link>
-					<div className="search-form hidden sm:block">
-						<form>
-							<div className="relative rounded-sm shadow-sm bg-gray-200">
-								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-									<span className="text-gray-400 sm:text-sm">
-										<FontAwesomeIcon
-											icon={faMagnifyingGlass}
-										/>
-									</span>
+					{isAuth ? (
+						<div className="search-form hidden sm:block">
+							<form>
+								<div className="relative rounded-sm shadow-sm bg-gray-200">
+									<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+										<span className="text-gray-400 sm:text-sm">
+											<FontAwesomeIcon
+												icon={faMagnifyingGlass}
+											/>
+										</span>
+									</div>
+									<input
+										type="search"
+										name="searchText"
+										id="searchTextDesktop"
+										required
+										className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
+										placeholder="Enter search text..."
+									/>
 								</div>
-								<input
-									type="search"
-									name="searchText"
-									id="searchText"
-									className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
-									placeholder="Enter search text..."
-								/>
-							</div>
-						</form>
-					</div>
+							</form>
+						</div>
+					) : null}
 					<div className="flex gap-4 items-center justify-center">
 						{isAuth ? (
 							<button
@@ -115,24 +115,27 @@ const Navbar = () => {
 					</div>
 				</div>
 			</div>
-			<div className="search-form sm:hidden block px-4 py-2 pb-4">
-				<form>
-					<div className="relative rounded-sm shadow-sm bg-gray-100">
-						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-							<span className="text-gray-400 sm:text-sm">
-								<FontAwesomeIcon icon={faMagnifyingGlass} />
-							</span>
+			{isAuth ? (
+				<div className="search-form sm:hidden block px-4 py-2 pb-4">
+					<form>
+						<div className="relative rounded-sm shadow-sm bg-gray-200">
+							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<span className="text-gray-400 sm:text-sm">
+									<FontAwesomeIcon icon={faMagnifyingGlass} />
+								</span>
+							</div>
+							<input
+								type="search"
+								name="searchText"
+								id="searchTextMobile"
+								required
+								className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
+								placeholder="Enter search text..."
+							/>
 						</div>
-						<input
-							type="search"
-							name="searchText"
-							id="searchText"
-							className="focus:ring-sky-500 focus:border-sky-500 block w-full pl-8 bg-transparent pr-2 py-1.5 sm:text-base mr-1  text-slate-900 border-gray-300 rounded-sm outline-none"
-							placeholder="Enter search text..."
-						/>
-					</div>
-				</form>
-			</div>
+					</form>
+				</div>
+			) : null}
 		</nav>
 	);
 };

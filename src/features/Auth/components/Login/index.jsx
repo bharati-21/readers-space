@@ -44,7 +44,7 @@ const Login = () => {
 
 			if (response?.payload.encodedToken) {
 				showToast("Login Successfull.", "success");
-				navigate("/");
+				navigate(location.state?.from ?? "/home", { replace: true });
 			}
 		} catch (error) {
 			showToast(error.message, "error");
