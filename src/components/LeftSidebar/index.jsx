@@ -8,14 +8,18 @@ import {
 	Add,
 } from "@mui/icons-material";
 import { v4 as uuid } from "uuid";
-import { EDIT_MODAL_VISIBILITY } from "features";
-import { useDispatch } from "react-redux";
+import { editModalVisibility, getAuthState } from "features";
+import { useDispatch, useSelector } from "react-redux";
 
 const LeftSidebar = () => {
+	const dispatch = useDispatch();
+	const {
+		authUser: { username },
+	} = useSelector(getAuthState);
+
 	const getActiveClassName = ({ isActive }) =>
 		isActive ? `active-link link` : `link`;
 
-	const dispatch = useDispatch();
 	const sidebarLinks = [
 		{
 			id: uuid(),
@@ -39,7 +43,7 @@ const LeftSidebar = () => {
 			id: uuid(),
 			link: "Profile",
 			icon: <AccountCircle />,
-			to: "/profile",
+			to: `/profile/${username}`,
 		},
 	];
 
@@ -54,7 +58,12 @@ const LeftSidebar = () => {
 
 	const handleShowModalDialog = (event) => {
 		event.stopPropagation();
-		dispatch(EDIT_MODAL_VISIBILITY(true));
+		dispatch(
+			editModalVisibility({
+				modalVisibilityState: true,
+				modalChildren: "POST_MODAL",
+			})
+		);
 	};
 
 	return (
