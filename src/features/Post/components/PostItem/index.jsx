@@ -8,11 +8,11 @@ import {
 } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import {
-	EDIT_MODAL_VISIBILITY,
-	SET_POST_TO_BE_EDITED,
+	editModalVisibility,
+	setPostToEdit,
 	getAuthState,
 	deletePost,
 	likePost,
@@ -58,20 +58,10 @@ const PostItem = ({ post, location }) => {
 			? true
 			: false;
 
-	const [isPostLikedByAuthUser, setIsPostLikedByAuthUser] = useState(
-		getIsPostLikedByAuthUser()
-	);
-
 	const getIsPostInBookmarks = () => bookmarks.includes(_id);
 
-	const [isPostInBookmarks, setIsPostInBookmarks] = useState(
-		getIsPostInBookmarks()
-	);
-
-	useEffect(() => {
-		setIsPostLikedByAuthUser(getIsPostLikedByAuthUser());
-		setIsPostInBookmarks(getIsPostInBookmarks());
-	}, [likedBy, bookmarks]);
+	const isPostLikedByAuthUser = getIsPostLikedByAuthUser();
+	const isPostInBookmarks = getIsPostInBookmarks();
 
 	const dispatch = useDispatch();
 
@@ -88,8 +78,13 @@ const PostItem = ({ post, location }) => {
 	const handleEditPost = (event) => {
 		event.stopPropagation();
 		event.preventDefault();
-		dispatch(SET_POST_TO_BE_EDITED(post));
-		dispatch(EDIT_MODAL_VISIBILITY(true));
+		dispatch(setPostToEdit(post));
+		dispatch(
+			editModalVisibility({
+				modalVisibilityState: true,
+				modalChildren: "POST_MODAL",
+			})
+		);
 	};
 
 	const handleDeletePost = async (event) => {
@@ -130,9 +125,9 @@ const PostItem = ({ post, location }) => {
 			}
 		} catch (error) {
 			showToast(error.message, "error");
+		} finally {
+			handleChangeLoadingServiceState("loadingLikeService", false);
 		}
-
-		handleChangeLoadingServiceState("loadingLikeService", false);
 	};
 
 	const handleBookmarkStateChange = async (event) => {
@@ -155,17 +150,21 @@ const PostItem = ({ post, location }) => {
 			}
 		} catch (error) {
 			showToast(error.message, "error");
+		} finally {
+			handleChangeLoadingServiceState("loadingBookmarkService", false);
 		}
+	};
 
-		handleChangeLoadingServiceState("loadingBookmarkService", false);
+	const navigateToSinglePostView = (event) => {
+		navigate(`/post/${_id}`);
 	};
 
 	return (
-		<Link
-			to={`/post/${_id}`}
-			className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm cursor-pointer gap-6 shadow-sm"
-		>
-			<div className="flex flex-row items-start justify-between gap-4 w-full rounded-sm">
+		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm">
+			<div
+				className="flex flex-row items-start justify-between gap-4 w-full rounded-sm cursor-pointer"
+				onClick={navigateToSinglePostView}
+			>
 				<img
 					className="inline-block w-8 h-8 md:h-10 md:w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
 					src="https://i.pravatar.cc/200"
@@ -206,48 +205,53 @@ const PostItem = ({ post, location }) => {
 					</div>
 				) : null}
 			</div>
-			{likeCount === 0 ? (
-				<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 mb-[-15px]">
-					<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
-					Be the first of your friends to like this!
-				</div>
-			) : null}
-			<div className="flex flex-row justify-between items-center">
-				<button
-					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn flex flex-row items-end justify-center gap-1 h-max"
-					onClick={handlePostLikeChange}
-					disabled={loadingLikeService}
-				>
-					<span className="like-icon">
-						{isPostLikedByAuthUser ? (
-							<Favorite />
-						) : (
-							<FavoriteBorder />
-						)}
-					</span>
-					{likeCount > 0 ? (
-						<span className="like-count text-base">
-							{likeCount}
+			<div className="flex flex-col gap-2">
+				{likeCount === 0 ? (
+					<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400">
+						<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
+						Be the first of your friends to like this!
+					</div>
+				) : null}
+				<div className="flex flex-row justify-between items-center">
+					<button
+						className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn flex flex-row items-end justify-center gap-1 h-max"
+						onClick={handlePostLikeChange}
+						disabled={loadingLikeService}
+					>
+						<span className="like-icon">
+							{isPostLikedByAuthUser ? (
+								<Favorite />
+							) : (
+								<FavoriteBorder />
+							)}
 						</span>
-					) : null}
-				</button>
-				<button className="text-sky-400 hover:text-sky-500 flex flex-row items-end justify-center gap-1">
-					<span className="like-icon">
-						<Comment />
-					</span>
-					{comments?.length}
-				</button>
-				<button
-					className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
-					onClick={handleBookmarkStateChange}
-					disabled={loadingBookmarkService}
-				>
-					{isPostInBookmarks ? <Bookmark /> : <BookmarkBorder />}
-				</button>
+						{likeCount > 0 ? (
+							<span className="like-count text-base">
+								{likeCount}
+							</span>
+						) : null}
+					</button>
+					<button
+						className="text-sky-400 hover:text-sky-500 flex flex-row items-end justify-center gap-1"
+						onClick={navigateToSinglePostView}
+					>
+						<span className="like-icon">
+							<Comment />
+						</span>
+						{comments?.length}
+					</button>
+					<button
+						className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+						onClick={handleBookmarkStateChange}
+						disabled={loadingBookmarkService}
+					>
+						{isPostInBookmarks ? <Bookmark /> : <BookmarkBorder />}
+					</button>
+				</div>
 			</div>
 
 			<Outlet context={post} />
-		</Link>
+		</div>
 	);
 };
 
