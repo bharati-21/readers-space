@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
 	FavoriteBorder,
 	Favorite,
@@ -6,10 +7,8 @@ import {
 	Comment,
 	MoreHoriz,
 } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import Hyphenated from "react-hyphen";
 
 import {
 	editModalVisibility,

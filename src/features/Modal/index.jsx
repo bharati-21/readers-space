@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getModalState, PostContainer } from "features";
 import { useOnOutsideClick } from "hooks";
-import { EditProfileForm, PostModal } from "components";
+import { EditProfileForm } from "components";
 import { useLocation } from "react-router-dom";
 import { editModalVisibility } from "./modalSlice";
 

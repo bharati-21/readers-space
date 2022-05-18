@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { InsertPhoto } from "@mui/icons-material";
-import { CircleProgressBar } from "components";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
-	editAuthUser,
+    editAuthUser,
 	editModalVisibility,
 	editUserProfile,
 	getAuthState,
 	getUserProfileState,
 } from "features";
+import { CircleProgressBar } from "components";
 import { useToast } from "hooks";
 
 const EditProfileForm = () => {
