@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
+import Hyphenated from "react-hyphen";
 
 import {
 	editModalVisibility,
@@ -172,7 +173,7 @@ const PostItem = ({ post, location }) => {
 				/>
 				<div className="flex flex-col items-start justify-between w-full gap-4">
 					<div className="h4 text-base md:text-lg">{username}</div>
-					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap">
+					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap break-all">
 						{content}
 					</div>
 				</div>
