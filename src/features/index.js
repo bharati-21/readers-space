@@ -7,3 +7,4 @@ export { PostItem } from "./Post/components/PostItem";
 export { PostsList } from "./Post/components/PostsList";
 export * from "./Post/PostSlice";
 export * from "./Post/components/PostModal/postModalSlice";
+export { CommentsContainer } from "./Post/components/CommentsContainer";
