@@ -13,3 +13,4 @@ export { postCommentService } from "./post-services/postCommentService";
 export { getUserProfileDetailsService } from "./user-profile-services/getUserProfileDetailsService";
 export { getUserPostsService } from "./user-profile-services/getUserPostsService";
 export { editUserProfileService } from "./user-profile-services/editUserProfileService";
+export { getAllUsersService } from "./users-services/getAllUsersService";
