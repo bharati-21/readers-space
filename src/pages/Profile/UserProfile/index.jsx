@@ -1,6 +1,8 @@
-import { NorthEast } from "@mui/icons-material";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NorthEast } from "@mui/icons-material";
+
+import { editModalVisibility, getAuthState } from "features";
 
 const UserProfile = ({ userProfile, userPostsLength }) => {
 	const {
@@ -14,19 +16,32 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 		following,
 	} = userProfile;
 
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
+	const {
+		authUser: { username: authUsername },
+	} = useSelector(getAuthState);
 
-    const handleModalVisibilityChange = (e) => {
-        e.stopPropagation();
-        
-    } 
+	const handleModalVisibilityChange = (e) => {
+		e.stopPropagation();
+		dispatch(
+			editModalVisibility({
+				modalVisibilityState: true,
+				modalChildren: "EDIT_PROFILE",
+			})
+		);
+	};
 
 	return (
 		<div className="w-full h-max relative">
 			<div className="image-container h-[8rem] w-full bg-sky-400 p-3 sm:p-5 ">
-				<button className="bg-slate-900 hover:bg-slate-800 transition-all ease-linear text-gray-100 px-2 py-1 rounded-sm absolute right-3 top-3 sm:top-5 sm:right-5" onClick={handleModalVisibilityChange}>
-					Edit Profile
-				</button>
+				{authUsername === username ? (
+					<button
+						className="bg-slate-900 hover:bg-slate-800 transition-all ease-linear text-gray-100 px-2 py-1 rounded-sm absolute right-3 top-3 sm:top-5 sm:right-5"
+						onClick={handleModalVisibilityChange}
+					>
+						Edit Profile
+					</button>
+				) : null}
 				<div className="absolute left-[50%] translate-x-[-50%] top-[40px] w-max text-center mx-auto">
 					<img
 						src={profileImage}
