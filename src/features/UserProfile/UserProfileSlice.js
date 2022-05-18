@@ -1,4 +1,8 @@
-import { getUserPostsService, getUserProfileDetailsService } from "services";
+import {
+	editUserProfileService,
+	getUserPostsService,
+	getUserProfileDetailsService,
+} from "services";
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
@@ -40,10 +44,29 @@ export const getUserPosts = createAsyncThunk(
 	}
 );
 
+export const editUserProfile = createAsyncThunk(
+	"userProfile/editUserProfile",
+	async ({ authToken, editedUserProfile }, { rejectWithValue }) => {
+		try {
+			const { data } = await editUserProfileService(
+				authToken,
+				editedUserProfile
+			);
+			return data.user;
+		} catch (error) {
+			rejectWithValue(error.message);
+		}
+	}
+);
+
 const userProfileSlice = createSlice({
 	name: "userProfile",
 	initialState,
-	reducers: {},
+	reducers: {
+		removeUserProfile: (state, action) => {
+			state = initialState;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getUserProfile.pending, (state) => {
@@ -67,9 +90,21 @@ const userProfileSlice = createSlice({
 			.addCase(getUserPosts.rejected, (state, action) => {
 				state.userPostsError = action.payload;
 				state.userPostsLoading = false;
+			})
+			.addCase(editUserProfile.pending, (state) => {
+				state.userProfileLoading = true;
+			})
+			.addCase(editUserProfile.fulfilled, (state, action) => {
+				state.userProfile = action.payload;
+				state.userProfileLoading = false;
+			})
+			.addCase(editUserProfile.rejected, (state, action) => {
+				state.userProfileError = action.payload;
+				state.userProfileLoading = false;
 			});
 	},
 });
 
 export const getUserProfileState = (state) => state.userProfile;
 export const userProfileReducer = userProfileSlice.reducer;
+export const { removeUserProfile } = userProfileSlice.actions;
