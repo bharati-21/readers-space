@@ -4,6 +4,7 @@ import {
 	modalReducer,
 	postsReducer,
 	userProfileReducer,
+	usersReducer,
 } from "features/";
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
 		posts: postsReducer,
 		modal: modalReducer,
 		userProfile: userProfileReducer,
+		users: usersReducer,
 	},
 });
 
