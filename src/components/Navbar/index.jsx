@@ -12,20 +12,17 @@ import { getAuthState, logoutUser } from "features";
 import { useToast } from "hooks";
 
 const Navbar = () => {
-	const getSystemPreferenceThemeOrSavedTheme = () => {
-		return (
-			localStorage.getItem("readers-space-theme") ||
-			(window.matchMedia("(prefers-color-scheme: dark)").matches
-				? "dark"
-				: "light")
-		);
-	};
+	const getSystemPreferenceThemeOrSavedTheme = () =>
+		localStorage.getItem("readers-space-theme") ||
+		(window.matchMedia("(prefers-color-scheme: dark)").matches
+			? "dark"
+			: "light");
 
 	const auth = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { showToast } = useToast();
 	const navigate = useNavigate();
-	const [theme, setTheme] = useState(getSystemPreferenceThemeOrSavedTheme());
+	const [theme, setTheme] = useState(getSystemPreferenceThemeOrSavedTheme);
 
 	const { isAuth } = auth;
 

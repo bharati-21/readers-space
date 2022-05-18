@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import heroImage from "images/hero-image.svg";
 import logoImage from "images/readers-space-logo.png";
@@ -13,7 +13,7 @@ const LandingPage = () => {
 
 	useEffect(() => {
 		if (isAuth) {
-			navigate("/home");
+			navigate("/home", { replace: true });
 		}
 	}, []);
 
