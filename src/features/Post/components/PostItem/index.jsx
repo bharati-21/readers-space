@@ -22,6 +22,8 @@ import {
 	getPostsState,
 } from "features";
 import { useToast } from "hooks";
+import Hyphenated from "react-hyphen";
+import { UserProfileImage } from "components";
 
 const PostItem = ({ post, location }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
@@ -155,25 +157,37 @@ const PostItem = ({ post, location }) => {
 		}
 	};
 
-	const navigateToSinglePostView = (event) => {
+	const navigateToSinglePostView = () => {
 		navigate(`/post/${_id}`);
 	};
 
+	const profileImage =
+		authUsername === username
+			? JSON.parse(localStorage.getItem("readers-space-user"))
+					.profileImage
+			: post.profileImage;
+
+    const handleUserInfoClicked = (event) => {
+		event.stopPropagation();
+
+		navigate(`/profile/${username}`);
+	};
+
 	return (
-		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm">
+		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm max-w-[1080px]">
 			<div
 				className="flex flex-row items-start justify-between gap-4 w-full rounded-sm cursor-pointer"
 				onClick={navigateToSinglePostView}
 			>
 				<img
-					className="inline-block w-8 h-8 md:h-10 md:w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
-					src="https://i.pravatar.cc/200"
-					alt="Jane Doe Profile Image"
+					className="inline-block h-10 w-10 md:h-8 md:w-8  rounded-full ring-2 ring-sky-500 shrink-0 object-cover" onClick={handleUserInfoClicked}
+					src={profileImage}
+					alt={`${username} profile image`}
 				/>
 				<div className="flex flex-col items-start justify-between w-full gap-4">
-					<div className="h4 text-base md:text-lg">{username}</div>
-					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap break-all">
-						{content}
+					<div className="h4 text-base font-semibold md:text-lg" onClick={handleUserInfoClicked}>{username}</div>
+					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap post-content">
+						<Hyphenated>{content}</Hyphenated>
 					</div>
 				</div>
 				{authUsername === username ? (

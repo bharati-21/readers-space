@@ -88,6 +88,7 @@ export const createPostHandler = function (schema, request) {
 			},
 			comments: [],
 			username: user.username,
+			profileImage: user.profileImage,
 			createdAt: formatDate(),
 			updatedAt: formatDate(),
 		};
@@ -172,7 +173,11 @@ export const likePostHandler = function (schema, request) {
 		}
 		const postId = request.params.postId;
 		const post = schema.posts.findBy({ _id: postId }).attrs;
-		if (post.likes.likedBy.some((currUser) => currUser._id === user._id)) {
+		if (
+			post.likes.likedBy.some(
+				(currUser) => currUser.username === user.username
+			)
+		) {
 			return new Response(
 				400,
 				{},
@@ -180,7 +185,7 @@ export const likePostHandler = function (schema, request) {
 			);
 		}
 		post.likes.dislikedBy = post.likes.dislikedBy.filter(
-			(currUser) => currUser._id !== user._id
+			(currUser) => currUser.username !== user.username
 		);
 		post.likes.likeCount += 1;
 		post.likes.likedBy.push(user);
@@ -239,7 +244,7 @@ export const dislikePostHandler = function (schema, request) {
 		}
 		post.likes.likeCount -= 1;
 		const updatedLikedBy = post.likes.likedBy.filter(
-			(currUser) => currUser._id !== user._id
+			(currUser) => currUser.username !== user.username
 		);
 		post.likes.dislikedBy.push(user);
 		post = { ...post, likes: { ...post.likes, likedBy: updatedLikedBy } };

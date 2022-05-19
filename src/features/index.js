@@ -9,3 +9,4 @@ export * from "./Post/PostSlice";
 export * from "./Modal/modalSlice";
 export { CommentsContainer } from "./Post/components/CommentsContainer";
 export * from "./UserProfile/UserProfileSlice";
+export * from "./Users/usersSlice";

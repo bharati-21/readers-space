@@ -11,17 +11,18 @@ import {
 	getUserProfile,
 	removeUserProfile,
 } from "features";
-import errorImage from "images/error-image.svg";
-import { Loader } from "components";
 import { UserProfile } from "./UserProfile";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
-	const { authToken } = useSelector(getAuthState);
+	const {
+		authToken,
+		authUser: { username: authUsername },
+	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { posts } = useSelector(getPostsState);
 	const { showToast } = useToast();
-	const { userProfile, userProfileLoading, userPostsLoading, userPosts } =
+	const { userProfile, userProfileLoading, userPosts } =
 		useSelector(getUserProfileState);
 
 	const { setDocumentTitle } = useDocumentTitle();
@@ -70,14 +71,22 @@ const Profile = () => {
 	}, [posts]);
 
 	return userProfileLoading ? (
-		<Loader />
+		<section></section>
 	) : (
 		<section className="home p-8 px-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full gap-4">
 			<UserProfile
 				userProfile={userProfile}
-				userPostsLength={userPosts.length}
+				userPostsLength={userPosts?.length}
 			/>
-			<PostsList posts={userPosts} userPostsLoading={userPostsLoading} />
+			{userPosts.length ? (
+				<PostsList posts={userPosts} />
+			) : (
+				<h3 className="text-lg md:text-2xl mt-3 text-green-600 font-semibold text-center">
+					{username === authUsername ? "You" : "They"} are yet to
+					share {username === authUsername ? "your" : "their"} musings
+					about reading!
+				</h3>
+			)}
 		</section>
 	);
 };

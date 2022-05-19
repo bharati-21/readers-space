@@ -3,7 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import Mockman from "mockman-js";
 
 import { CommentsContainer, Login, SignUp } from "features";
-import { Bookmarks, Home, LandingPage, Profile, SinglePost } from "pages";
+import {
+	Bookmarks,
+	Explore,
+	Home,
+	LandingPage,
+	Profile,
+	SinglePost,
+} from "pages";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { NavRoutesWithNavbar } from "./NavRoutesWithNavbar";
 
@@ -21,7 +28,8 @@ const NavRoutes = () => {
 							element={<CommentsContainer />}
 						/>
 					</Route>
-                    <Route path="/profile/:username" element={<Profile />} />
+					<Route path="/profile/:username" element={<Profile />} />
+					<Route path="/explore" element={<Explore />} />
 				</Route>
 				<Route path="/mockman" element={<Mockman />} />
 			</Route>

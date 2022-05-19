@@ -52,8 +52,6 @@ export function makeServer({ environment = "development" } = {}) {
 			users.forEach((item) =>
 				server.create("user", {
 					...item,
-					followers: [],
-					following: [],
 					bookmarks: [],
 				})
 			);
@@ -121,19 +119,15 @@ export function makeServer({ environment = "development" } = {}) {
 				removePostFromBookmarkHandler.bind(this)
 			);
 			this.post(
-				"/users/follow/:followUserId/",
+				"/users/follow/:followUsername/",
 				followUserHandler.bind(this)
 			);
 			this.post(
-				"/users/unfollow/:followUserId/",
+				"/users/unfollow/:followUsername/",
 				unfollowUserHandler.bind(this)
 			);
 			this.passthrough();
-			this.passthrough(
-				"https://api.cloudinary.com/v1_1/" +
-					process.env.REACT_APP_CLOUD_NAME +
-					"/image/upload"
-			);
+			this.passthrough(process.env.REACT_APP_CLOUDINARY_URL);
 		},
 	});
 }

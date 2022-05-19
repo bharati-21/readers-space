@@ -3,7 +3,7 @@ import { InsertPhoto } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-    editAuthUser,
+	editAuthUser,
 	editModalVisibility,
 	editUserProfile,
 	getAuthState,
@@ -35,14 +35,14 @@ const EditProfileForm = () => {
 			showToast("Image file size should be less than 3MB", "error");
 			return;
 		}
-		const url =
-			"https://api.cloudinary.com/v1_1/" +
-			process.env.REACT_APP_CLOUD_NAME +
-			"/image/upload";
+		const url = process.env.REACT_APP_CLOUDINARY_URL;
 
 		const formData = new FormData();
 		formData.append("file", imageFile);
-		formData.append("upload_preset", "l4ggled4");
+		formData.append(
+			"upload_preset",
+			process.env.REACT_APP_CLOUD_UPLOAD_PRESET
+		);
 
 		fetch(url, {
 			method: "POST",

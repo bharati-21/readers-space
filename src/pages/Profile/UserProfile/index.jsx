@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NorthEast } from "@mui/icons-material";
 
-import { editModalVisibility, getAuthState } from "features";
+import {
+	editModalVisibility,
+	getAuthState,
+	getUsersState,
+	postFollowUser,
+	postUnfollowUser,
+} from "features";
+import { useToast } from "hooks";
+import { getUserDetails } from "utils";
 
 const UserProfile = ({ userProfile, userPostsLength }) => {
 	const {
-		profileImage,
 		username,
 		firstName,
 		lastName,
@@ -19,7 +26,12 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 	const dispatch = useDispatch();
 	const {
 		authUser: { username: authUsername },
+		authToken,
 	} = useSelector(getAuthState);
+	const { users } = useSelector(getUsersState);
+	const { showToast } = useToast();
+
+	const [isFollowingService, setIsFollowingService] = useState(false);
 
 	const handleModalVisibilityChange = (e) => {
 		e.stopPropagation();
@@ -31,8 +43,44 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 		);
 	};
 
+	const { profileImage } =
+		username === authUsername
+			? JSON.parse(localStorage.getItem("readers-space-user"))
+			: userProfile;
+
+	const followingUsers = getUserDetails(users, authUsername)?.following;
+	const isFollowing = getUserDetails(followingUsers, username ) ? true : false;
+
+	const handleUserFollow = async () => {
+		try {
+			setIsFollowingService(true);
+			const response = isFollowing
+				? await dispatch(postUnfollowUser({ authToken, username }))
+				: await dispatch(postFollowUser({ authToken, username }));
+			if (response?.error) {
+				throw new Error(
+					`Failed to ${
+						isFollowing ? "unfollow" : "follow"
+					} user. Please try again later.`
+				);
+			}
+			localStorage.setItem(
+				"readers-space-user",
+				JSON.stringify(response.payload.user)
+			);
+			showToast(
+				`${isFollowing ? "Unfollowed" : "Followed"} user successfully.`,
+				"success"
+			);
+		} catch (error) {
+			showToast(error.message, "error");
+		} finally {
+			setIsFollowingService(false);
+		}
+	};
+
 	return (
-		<div className="w-full h-max relative">
+		<div className="w-full h-max relative max-w-[1080px]">
 			<div className="image-container h-[8rem] w-full bg-sky-400 p-3 sm:p-5 ">
 				{authUsername === username ? (
 					<button
@@ -44,7 +92,10 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 				) : null}
 				<div className="absolute left-[50%] translate-x-[-50%] top-[40px] w-max text-center mx-auto">
 					<img
-						src={profileImage}
+						src={
+							profileImage ??
+							"https://res.cloudinary.com/dylkclyom/image/upload/v1652861304/default_profile_400x400_kl4nw3.png"
+						}
 						alt={`${username} profile picture`}
 						className="w-[10rem] h-[10rem] rounded-full object-cover"
 					/>
@@ -58,18 +109,34 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 				<div className="user-info flex flex-col gap-4 items-center w-full mt-[150px]">
 					<div className="about mx-auto text-center">
 						<p>{bio}</p>
-						<a
-							href={website}
-							target="_blank"
-							className="text-sm text-sky-400 hover:text-sky-500 py-1 px-2 rounded-sm border mt-1 border-sky-400 mx-auto text-center max-w-max inline-block"
+						<div
+							className="buttons-container mt-1 flex flex-row gap-2 items-center justify-center"
+							onClick={handleUserFollow}
 						>
-							Visit Website <NorthEast fontSize="small" />
-						</a>
+							{username !== authUsername ? (
+								<button
+									className="text-sm btn-primary rounded-sm border max-w-[100px] py-1 px-2  text-center disabled:disabled-btn"
+									disabled={isFollowingService}
+								>
+									{isFollowing ? "Unfollow" : "Follow"}
+								</button>
+							) : null}
+
+							{website ? (
+								<a
+									href={website}
+									target="_blank"
+									className="text-sm text-sky-400 hover:text-sky-500 py-1 px-2 rounded-sm border  border-sky-400 text-center"
+								>
+									Visit Website <NorthEast fontSize="small" />
+								</a>
+							) : null}
+						</div>
 					</div>
 					<div className="w-full mt-5 flex flex-wrap flex-row gap-4 items-center justify-center sm:justify-around mb-5">
-						<h6>Followers: {followers.length}</h6>
+						<h6>Followers: {followers?.length}</h6>
 						<h6>Posts: {userPostsLength}</h6>
-						<h6>Following: {following.length}</h6>
+						<h6>Following: {following?.length}</h6>
 					</div>
 				</div>
 			</div>
