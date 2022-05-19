@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NorthEast, SentimentSatisfiedOutlined } from "@mui/icons-material";
+import { NorthEast } from "@mui/icons-material";
 
 import {
 	editModalVisibility,
