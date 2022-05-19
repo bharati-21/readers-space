@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const useInfiniteScroll = (posts) => {
 	const [pageNumber, setPageNumber] = useState(1);
@@ -7,13 +7,15 @@ const useInfiniteScroll = (posts) => {
 	const hasMorePosts = pageNumber < Math.ceil(postsLength / pageNumber);
 	const [loading, setLoading] = useState(false);
 
+    let interval = null;
+
 	const handleObserver = (entries) => {
 		const [target] = entries;
 
 		if (!loading && target.isIntersecting && hasMorePosts) {
 			setLoading(true);
 
-			setTimeout(() => {
+			interval = setTimeout(() => {
 				setPageNumber((prevPageNumber) => prevPageNumber + 1);
 				setLoading(false);
 			}, 1000);
@@ -29,6 +31,7 @@ const useInfiniteScroll = (posts) => {
 		if (reference) observer.observe(reference);
 
 		return () => {
+            if(interval) clearInterval(interval);
 			if (reference) observer.unobserve(reference);
 		};
 	}, [hasMorePosts, handleObserver]);
