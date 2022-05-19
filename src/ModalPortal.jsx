@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom";
-import { PostModal } from "features";
+import { Modal } from "features";
 
 const ModalPortal = () => {
 	return ReactDOM.createPortal(
-        <PostModal  />,
+        <Modal />,
         document.getElementById("modal-container")
 	);
 };

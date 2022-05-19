@@ -57,6 +57,13 @@ const authSlice = createSlice({
 			localStorage.removeItem("readers-space-token");
 			localStorage.removeItem("readers-space-user");
 		},
+		editAuthUser: (state, action) => {
+			state.authUser = { ...state.authUser, ...action.payload };
+			localStorage.setItem(
+				"readers-space-user",
+				JSON.stringify(state.authUser)
+			);
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -95,6 +102,6 @@ const authSlice = createSlice({
 
 export const getAuthState = (state) => state.auth;
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, editAuthUser } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
