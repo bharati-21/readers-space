@@ -15,7 +15,10 @@ import { UserProfile } from "./UserProfile";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
-	const { authToken, authUser: { authUsername } } = useSelector(getAuthState);
+	const {
+		authToken,
+		authUser: { username: authUsername },
+	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { posts } = useSelector(getPostsState);
 	const { showToast } = useToast();
@@ -79,7 +82,9 @@ const Profile = () => {
 				<PostsList posts={userPosts} />
 			) : (
 				<h3 className="text-lg md:text-2xl mt-3 text-green-600 font-semibold text-center">
-					{ username === authUsername ? "You" : "They" } are yet to share your musings about reading!
+					{username === authUsername ? "You" : "They"} are yet to
+					share {username === authUsername ? "your" : "their"} musings
+					about reading!
 				</h3>
 			)}
 		</section>
