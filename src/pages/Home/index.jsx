@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAuthState } from "features/Auth/authSlice";
 import { useDocumentTitle, useToast } from "hooks";
 import {
 	getPosts,
@@ -9,6 +8,7 @@ import {
 	getUsersState,
 	PostContainer,
 	PostsList,
+	getAuthState,
 } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader } from "components";
@@ -17,11 +17,11 @@ import { getUserDetails } from "utils";
 const Home = () => {
 	const {
 		authToken,
-		authUser: { username, following },
+		authUser: { username },
 	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
 	const { posts, postsLoading, postsError } = useSelector(getPostsState);
-	const { users, usersLoading, usersError } = useSelector(getUsersState);
+	const { users } = useSelector(getUsersState);
 	const { showToast } = useToast();
 
 	const { setDocumentTitle } = useDocumentTitle();
@@ -76,7 +76,13 @@ const Home = () => {
 				<div className="posts-container relative w-full">
 					<PostContainer />
 				</div>
-				<PostsList posts={followingUsersPosts} />
+				{followingUsersPosts.length ? (
+					<PostsList posts={followingUsersPosts} />
+				) : (
+					<h3 className="text-lg md:text-2xl mt-12 text-green-600 font-semibold text-center">
+						Follow users to see their posts here!
+					</h3>
+				)}
 			</div>
 		</section>
 	);
