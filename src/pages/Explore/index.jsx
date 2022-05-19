@@ -6,22 +6,22 @@ import {
 	getPosts,
 	getPostsState,
 	getUsersState,
-	PostContainer,
 	PostsList,
 	getAuthState,
 } from "features";
 import errorImage from "images/error-image.svg";
 import caughtUp from "images/all-caught-up.svg";
 import { Loader } from "components";
-import { getUnfollowedUsers, getUnfollowedUsersPosts } from "utils";
+import { getSortedPosts, getUnfollowedUsersPosts } from "utils";
 
 const Explore = () => {
 	const {
 		authToken,
-		authUser: { following, username },
+		authUser: { username },
 	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
-	const { posts, postsLoading, postsError } = useSelector(getPostsState);
+	const { posts, postsLoading, postsError } =
+		useSelector(getPostsState);
 	const { users, usersLoading, usersError } = useSelector(getUsersState);
 	const { showToast } = useToast();
 
@@ -50,6 +50,8 @@ const Explore = () => {
 		username
 	);
 
+	const sortedPosts = getSortedPosts(unfollowedUsersPosts, "LATEST");
+
 	return postsLoading || usersLoading ? (
 		<Loader />
 	) : postsError || usersError ? (
@@ -69,8 +71,8 @@ const Explore = () => {
 	) : (
 		<section className="home p-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start  w-full">
 			<div className="max-w-[1080px] w-full flex flex-col justify-start items-center">
-				{unfollowedUsersPosts.length ? (
-					<PostsList posts={unfollowedUsersPosts} />
+				{sortedPosts?.length ? (
+					<PostsList posts={sortedPosts} />
 				) : (
 					<>
 						<h2 className="mt-7 md:text-3xl text-green-600 font-semibold text-center text-lg relative z-[2]">

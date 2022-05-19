@@ -13,6 +13,7 @@ import {
 } from "features";
 import { UserProfile } from "./UserProfile";
 import { useParams } from "react-router-dom";
+import { getSortedPosts } from "utils";
 
 const Profile = () => {
 	const {
@@ -70,16 +71,18 @@ const Profile = () => {
 		dispatch(getUserPosts({ authToken, username }));
 	}, [posts]);
 
+	const sortedPosts = getSortedPosts(userPosts, "LATEST");
+
 	return userProfileLoading ? (
 		<section></section>
 	) : (
 		<section className="home p-8 px-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full gap-4">
 			<UserProfile
 				userProfile={userProfile}
-				userPostsLength={userPosts?.length}
+				userPostsLength={sortedPosts?.length}
 			/>
 			{userPosts.length ? (
-				<PostsList posts={userPosts} />
+				<PostsList posts={sortedPosts} />
 			) : (
 				<h3 className="text-lg md:text-2xl mt-3 text-green-600 font-semibold text-center">
 					{username === authUsername ? "You" : "They"} are yet to

@@ -11,8 +11,8 @@ import {
 	getAuthState,
 } from "features";
 import errorImage from "images/error-image.svg";
-import { Loader } from "components";
-import { getUserDetails } from "utils";
+import { Loader, SortOptions } from "components";
+import { getSortedPosts, getUserDetails } from "utils";
 
 const Home = () => {
 	const {
@@ -20,7 +20,7 @@ const Home = () => {
 		authUser: { username },
 	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
-	const { posts, postsLoading, postsError } = useSelector(getPostsState);
+	const { posts, postsLoading, postsError, sortBy } = useSelector(getPostsState);
 	const { users } = useSelector(getUsersState);
 	const { showToast } = useToast();
 
@@ -54,6 +54,8 @@ const Home = () => {
 			: false
 	);
 
+    const sortedPosts = getSortedPosts(followingUsersPosts, sortBy)
+
 	return postsLoading ? (
 		<Loader />
 	) : postsError ? (
@@ -72,12 +74,17 @@ const Home = () => {
 		</section>
 	) : (
 		<section className="home p-8 px-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full">
-			<div className="max-w-[1080px] w-full flex flex-col justify-start items-center">
+			<div className="max-w-[1080px] w-full flex flex-col justify-start items-center gap-4">
 				<div className="posts-container relative w-full">
 					<PostContainer />
 				</div>
-				{followingUsersPosts.length ? (
-					<PostsList posts={followingUsersPosts} />
+				{sortedPosts?.length ? (
+					<div className="posts-wrapper w-full">
+						<div className="sort-options-wrapper mt-8 w-full">
+							<SortOptions />
+						</div>
+						<PostsList posts={sortedPosts} />
+					</div>
 				) : (
 					<h3 className="text-lg md:text-2xl mt-12 text-green-600 font-semibold text-center">
 						Follow users to see their posts here!
