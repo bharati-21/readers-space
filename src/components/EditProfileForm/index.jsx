@@ -42,7 +42,7 @@ const EditProfileForm = () => {
 
 		const formData = new FormData();
 		formData.append("file", imageFile);
-		formData.append("upload_preset", "l4ggled4");
+		formData.append("upload_preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
 
 		fetch(url, {
 			method: "POST",
