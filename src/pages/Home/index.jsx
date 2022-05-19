@@ -12,6 +12,7 @@ import {
 } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader } from "components";
+import { getUserDetails } from "utils";
 
 const Home = () => {
 	const {
@@ -42,7 +43,7 @@ const Home = () => {
 		})();
 	}, []);
 
-	const authUserDetails = users?.find((user) => user.username === username);
+	const authUserDetails = getUserDetails(users, username);
 
 	const followingUsersPosts = posts?.filter((post) =>
 		authUserDetails?.following?.find(

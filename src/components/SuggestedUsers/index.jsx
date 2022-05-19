@@ -8,7 +8,7 @@ import {
 	addSuggestedUsers,
 } from "features";
 import { useToast } from "hooks";
-import { getUnfollowedUsers } from "utils";
+import { getUnfollowedUsers, getUserDetails } from "utils";
 import { UsersList } from "components";
 
 const SuggestedUsers = () => {
@@ -41,7 +41,7 @@ const SuggestedUsers = () => {
 			dispatch(addSuggestedUsers(getUnfollowedUsers(users, username)));
 			localStorage.setItem(
 				"readers-space-user",
-				JSON.stringify(users.find((user) => user.username === username))
+				JSON.stringify(getUserDetails(users,username))
 			);
 		}
 	}, [users]);

@@ -10,6 +10,7 @@ import {
 	postUnfollowUser,
 } from "features";
 import { useToast } from "hooks";
+import { getUserDetails } from "utils";
 
 const UserProfile = ({ userProfile, userPostsLength }) => {
 	const {
@@ -47,14 +48,8 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 			? JSON.parse(localStorage.getItem("readers-space-user"))
 			: userProfile;
 
-	const followingUsers = users?.find(
-		(user) => user.username === authUsername
-	)?.following;
-	const isFollowing = followingUsers?.find(
-		(followedUser) => followedUser.username === username
-	)
-		? true
-		: false;
+	const followingUsers = getUserDetails(users, authUsername)?.following;
+	const isFollowing = getUserDetails(followingUsers, username ) ? true : false;
 
 	const handleUserFollow = async () => {
 		try {
