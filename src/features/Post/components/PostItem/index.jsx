@@ -26,10 +26,10 @@ import {
 } from "features";
 import { useToast } from "hooks";
 import Hyphenated from "react-hyphen";
-import { UserProfileImage } from "components";
 
 const PostItem = ({ post, location }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
+
 
 	const {
 		authToken,
