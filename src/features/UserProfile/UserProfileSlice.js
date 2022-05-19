@@ -64,7 +64,8 @@ const userProfileSlice = createSlice({
 	initialState,
 	reducers: {
 		removeUserProfile: (state, action) => {
-			state = initialState;
+			state.userProfile = {};
+			state.userPosts = [];
 		},
 	},
 	extraReducers: (builder) => {
