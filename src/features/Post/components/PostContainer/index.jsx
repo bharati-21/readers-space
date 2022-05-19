@@ -15,7 +15,10 @@ import { setPostToEdit } from "features/Modal/modalSlice";
 const PostContainer = ({ container }) => {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const dispatch = useDispatch();
-	const { authToken } = useSelector(getAuthState);
+	const {
+		authToken,
+		authUser: { username },
+	} = useSelector(getAuthState);
 	const { showToast } = useToast();
 	const modal = useSelector(getModalState);
 	const { modalVisibilityState, postToEdit } = modal;
@@ -93,6 +96,10 @@ const PostContainer = ({ container }) => {
 		}
 	};
 
+	const profileImage = JSON.parse(
+		localStorage.getItem("readers-space-user")
+	).profileImage;
+
 	return (
 		<form
 			className="new-post-container shadow-sm rounded-sm bg-gray-100 dark:bg-slate-800 flex flex-col w-full gap-4 p-4"
@@ -100,9 +107,9 @@ const PostContainer = ({ container }) => {
 		>
 			<div className="flex flex-row items-start justify-between gap-4 w-full rounded-sm">
 				<img
-					className="inline-block h-10 w-10 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
-					src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-					alt="Jane Doe Profile Image"
+					className="inline-block h-10 w-10 md:h-8 md:w-8 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
+					src={profileImage}
+					alt={`${username} profile image`}
 				/>
 				<TextareaAutosize
 					minRows="3"
