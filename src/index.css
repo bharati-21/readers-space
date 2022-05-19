@@ -86,6 +86,10 @@
 		z-index: 2;
 		transform: translate(-50%, -50%);
 	}
+
+    .post-content {
+        overflow-wrap: break-word;
+    }
 }
 
 @layer components {
