@@ -47,9 +47,13 @@ const UsersList = ({ userList, inComponent }) => {
 		return (
 			<div
 				key={user.username}
-				className="flex text-left flex-row items-start justify-between gap-2"
+				className={`flex text-left flex-row items-start justify-between gap-2 ${
+					inComponent === "search-results"
+						? "border-b last:border-b-0 border-b-gray-400 pb-2 px-2 first:pt-2"
+						: "border-none"
+				}`}
 			>
-				<li className="flex flex-row items-start justify-between w-full gap-3">
+				<li className="flex flex-row items-start justify-between w-full">
 					<div className="user-info gap-2 flex flex-row items-start justfiy-between">
 						<img
 							className="cursor-pointer inline-block h-7 w-7 rounded-full ring-2 ring-sky-500"
@@ -94,7 +98,13 @@ const UsersList = ({ userList, inComponent }) => {
 		);
 	});
 	return (
-		<ul className="flex list-none flex-col gap-4 justify-start w-full bg-gray-100 dark:bg-slate-800 p-3 rounded-sm">
+		<ul
+			className={`flex list-none flex-col gap-4 justify-start w-full ${
+				inComponent === "search-results"
+					? "bg-inherit p-0 border border-gray-400"
+					: "bg-gray-100 dark:bg-slate-800 p-3"
+			} rounded-sm`}
+		>
 			{mappedUsersList}
 		</ul>
 	);
