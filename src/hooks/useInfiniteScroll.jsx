@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const useInfiniteScroll = (posts) => {
 	const [pageNumber, setPageNumber] = useState(1);
 	const lastElementReference = useRef(null);
 	const postsLength = posts.length;
-	const hasMorePosts = pageNumber < Math.ceil(postsLength / pageNumber);
+	const hasMorePosts = pageNumber <= Math.ceil(postsLength / 3);
 	const [loading, setLoading] = useState(false);
 
 	const handleObserver = (entries) => {
