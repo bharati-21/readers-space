@@ -13,6 +13,7 @@ import {
 } from "pages";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { NavRoutesWithNavbar } from "./NavRoutesWithNavbar";
+import { NotFound } from "pages/NotFound";
 
 const NavRoutes = () => {
 	return (
@@ -30,6 +31,7 @@ const NavRoutes = () => {
 					</Route>
 					<Route path="/profile/:username" element={<Profile />} />
 					<Route path="/explore" element={<Explore />} />
+					<Route path="*" element={<NotFound />} />
 				</Route>
 				<Route path="/mockman" element={<Mockman />} />
 			</Route>

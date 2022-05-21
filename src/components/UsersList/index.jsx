@@ -48,15 +48,15 @@ const UsersList = ({ userList, inComponent }) => {
 			<div
 				key={user.username}
 				className={`flex text-left flex-row items-start justify-between gap-2 ${
-					inComponent === "search-results"
+					inComponent === "SEARCH_RESULTS"
 						? "border-b last:border-b-0 border-b-gray-400 pb-2 px-2 first:pt-2"
 						: "border-none"
-				}`}
+				} ${inComponent === "MODAL" ? "p-2" : "p-0"}`}
 			>
 				<li className="flex flex-row items-start justify-between w-full">
 					<div className="user-info gap-2 flex flex-row items-start justfiy-between">
 						<img
-							className="cursor-pointer inline-block h-7 w-7 rounded-full ring-2 ring-sky-500"
+							className="cursor-pointer object-cover inline-block h-7 w-7 rounded-full ring-2 ring-sky-500"
 							src={
 								profileImage ??
 								"https://res.cloudinary.com/dylkclyom/image/upload/v1652861304/default_profile_400x400_kl4nw3.png"
@@ -100,10 +100,10 @@ const UsersList = ({ userList, inComponent }) => {
 	return (
 		<ul
 			className={`flex list-none flex-col gap-4 justify-start w-full ${
-				inComponent === "search-results"
+				inComponent === "SEARCH_RESULTS"
 					? "bg-inherit p-0 border border-gray-400"
 					: "bg-gray-100 dark:bg-slate-800 p-3"
-			} rounded-sm`}
+			} rounded-sm ${inComponent == "MODAL" ? "py-6" : null}`}
 		>
 			{mappedUsersList}
 		</ul>

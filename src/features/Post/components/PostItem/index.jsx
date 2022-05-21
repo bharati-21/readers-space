@@ -23,13 +23,13 @@ import {
 	bookmarkPost,
 	removeBookmarkedPost,
 	getPostsState,
+	setUserList,
 } from "features";
 import { useToast } from "hooks";
 import Hyphenated from "react-hyphen";
 
 const PostItem = ({ post, location }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
-
 
 	const {
 		authToken,
@@ -177,7 +177,35 @@ const PostItem = ({ post, location }) => {
 		navigate(`/profile/${username}`);
 	};
 
+	const handleShowLikedUserList = (event) => {
+		event.stopPropagation();
+		if (!likeCount) {
+			return;
+		}
+		dispatch(
+			editModalVisibility({
+				modalVisibilityState: true,
+				modalChildren: "USER_LIST",
+			})
+		);
+		dispatch(setUserList({ list: likedBy, type: "LIKED BY" }));
+	};
+
 	const formattedDate = dayjs(createdAt).toNow(new Date());
+
+	let likedByText = "";
+	if (likeCount === 0) {
+		likedByText = "Be the first of your friends to like this!";
+	} else {
+		const [firstLikedBy] = likedBy;
+		const displayLikeCount = likeCount - 1;
+		likedByText = `${firstLikedBy.username}`;
+		if (displayLikeCount > 0) {
+			likedByText += ` and ${displayLikeCount} ${
+				displayLikeCount > 1 ? "others" : "other"
+			}`;
+		}
+	}
 
 	return (
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm max-w-[1080px]">
@@ -237,12 +265,17 @@ const PostItem = ({ post, location }) => {
 				) : null}
 			</div>
 			<div className="flex flex-col gap-2">
-				{likeCount === 0 ? (
-					<div className="ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400">
-						<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />{" "}
-						Be the first of your friends to like this!
+				{
+					<div
+						className={`ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 ${
+							likeCount ? "cursor-pointer" : "cursor-default"
+						}`}
+						onClick={handleShowLikedUserList}
+					>
+						<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />
+						{likedByText}
 					</div>
-				) : null}
+				}
 				<div className="flex flex-row justify-between items-center">
 					<button
 						className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn flex flex-row items-end justify-center gap-1 h-max"
