@@ -82,7 +82,7 @@ const Navbar = () => {
 							</h3>
 						</Link>
 						{isAuth ? (
-							<div className="search-form hidden sm:block relative">
+							<div className="search-form hidden sm:block relative" ref={searchListReference}>
 								<form>
 									<div className="relative rounded-sm shadow-sm bg-gray-200">
 										<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -110,7 +110,6 @@ const Navbar = () => {
 										searchLoading={searchLoading}
 										searchedUsers={searchedUsers}
 										searchText={searchQueryText}
-										ref={searchListReference}
 									/>
 								) : null}
 							</div>
@@ -144,7 +143,7 @@ const Navbar = () => {
 					</div>
 				</div>
 				{isAuth ? (
-					<div className="search-form sm:hidden block px-4 py-2 pb-4 relative">
+					<div className="search-form sm:hidden block px-4 py-2 pb-4 relative" ref={searchListReference}>
 						<form>
 							<div className="relative rounded-sm shadow-sm bg-gray-200">
 								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -172,7 +171,6 @@ const Navbar = () => {
 								searchLoading={searchLoading}
 								searchedUsers={searchedUsers}
 								searchText={searchQueryText}
-								ref={searchListReference}
 							/>
 						) : null}
 					</div>
