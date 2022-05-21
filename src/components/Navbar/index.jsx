@@ -64,7 +64,6 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="relative w-full">
 			<nav className="dark:bg-slate-800 navbar bg-gray-100 sticky w-full top-0 left-0 z-[5] sm:py-0">
 				<div className="max-w-8xl mx-auto px-4 py-1 sm:px-6 lg:px-8">
 					<div className="relative flex items-center justify-between h-16">
@@ -176,7 +175,6 @@ const Navbar = () => {
 					</div>
 				) : null}
 			</nav>
-		</div>
 	);
 };
 
