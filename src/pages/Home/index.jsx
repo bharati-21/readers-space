@@ -10,10 +10,12 @@ import {
 	PostsList,
 	getAuthState,
 	signupUser,
+	getAllUsers,
 } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader, SortOptions } from "components";
 import { getSortedPosts, getUserDetails } from "utils";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 	const {
@@ -27,21 +29,6 @@ const Home = () => {
 	const { showToast } = useToast();
 
 	const { setDocumentTitle } = useDocumentTitle();
-
-	const reSignupUser = async () => {
-		try {
-			const response = await dispatch(
-				signupUser(
-					JSON.parse(localStorage.getItem("readers-space-user"))
-				)
-			);
-			if (response?.error) throw new Error("Re signup failed");
-		} catch (error) {
-			showToast(
-				"Something went really wrong. Please logout and login again."
-			);
-		}
-	};
 
 	useEffect(() => {
 		setDocumentTitle("ReadersSpace | Home");
@@ -58,14 +45,43 @@ const Home = () => {
 				showToast(error.message, "error");
 			}
 		})();
+	}, []);
 
+	const reSignUpUser = async () => {
+		try {
+			const response = await dispatch(
+				signupUser(
+					JSON.parse(localStorage.getItem("readers-space-user"))
+				)
+			);
+			if (response?.error) throw new Error("Re signup failed");
+
+			try {
+				const allUsersResponse = await dispatch(getAllUsers(authToken));
+				if (allUsersResponse?.error) {
+					throw new Error("Could not fetch users data");
+				}
+			} catch (error) {
+				showToast(error.message, "error");
+			}
+		} catch (error) {
+			showToast(
+				"Something went really wrong. Please logout and login again.",
+				"error"
+			);
+		}
+	};
+
+	useEffect(() => {
 		if (
+			users.length &&
 			JSON.parse(localStorage.getItem("readers-space-user")) &&
 			!getUserDetails(users, username)
 		) {
-			reSignupUser();
+			reSignUpUser();
+			dispatch(getAllUsers(authToken));
 		}
-	}, []);
+	}, [users]);
 
 	const authUserDetails = getUserDetails(users, username);
 

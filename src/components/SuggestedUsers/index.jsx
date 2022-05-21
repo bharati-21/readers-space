@@ -6,7 +6,6 @@ import {
 	getUsersState,
 	getAuthState,
 	addSuggestedUsers,
-	signupUser,
 } from "features";
 import { useToast } from "hooks";
 import { getUnfollowedUsers, getUserDetails } from "utils";
@@ -38,15 +37,13 @@ const SuggestedUsers = () => {
 	}, []);
 
 	useEffect(() => {
-		if (users.length) {
+		if (users?.length) {
 			dispatch(addSuggestedUsers(getUnfollowedUsers(users, username)));
-			const userDetails = getUserDetails(users, username);
-			if (userDetails) {
+			if (getUserDetails(users, username))
 				localStorage.setItem(
 					"readers-space-user",
-					JSON.stringify(userDetails)
+					JSON.stringify(getUserDetails(users, username))
 				);
-			}
 		}
 	}, [users]);
 
