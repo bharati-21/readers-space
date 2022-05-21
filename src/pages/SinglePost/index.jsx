@@ -48,7 +48,7 @@ const SinglePost = () => {
 					<Loader />
 				) : singlePost === -1 || postsError ? (
 					<div className="flex flex-col items-center justify-center w-full h-full">
-						<h3 className="md:text-2xl text-red-500 font-semibold text-center text-base relative z-[2]">
+						<h3 className="md:text-2xl mt-4 mb-2 text-red-500 font-semibold text-center text-base relative z-[2]">
 							{singlePost === -1
 								? `No post found with id ${postId}`
 								: "Some error occurred. Could not load post. Please try again later."}
@@ -56,7 +56,7 @@ const SinglePost = () => {
 						<img
 							src={errorImage}
 							alt="Broken error image"
-							className="mx-auto w-full h-full mt-[-7rem] md:mt-[-3rem]"
+							className="mx-auto w-full h-full md:mt-[-4rem]"
 						/>
 					</div>
 				) : (
