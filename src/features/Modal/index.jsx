@@ -68,7 +68,7 @@ const Modal = () => {
 					ref={modalContainerRef}
 				>
 					<button
-						className="btn-primary-icon relative left-[94%] top-2"
+						className="btn-primary-icon relative left-[96%] top-2"
 						onClick={handleModalClose}
 					>
 						<Close />
