@@ -8,6 +8,7 @@ import {
 	getUsersState,
 	postFollowUser,
 	postUnfollowUser,
+	setUserList,
 } from "features";
 import { useToast } from "hooks";
 import { getUserDetails } from "utils";
@@ -48,8 +49,13 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 			? JSON.parse(localStorage.getItem("readers-space-user"))
 			: userProfile;
 
-	const followingUsers = getUserDetails(users, authUsername)?.following;
-	const isFollowing = getUserDetails(followingUsers, username ) ? true : false;
+	const authUsersFollowing = getUserDetails(users, authUsername)?.following;
+	const isFollowing = getUserDetails(authUsersFollowing, username)
+		? true
+		: false;
+
+	const usersFollowing = getUserDetails(users, username)?.following;
+	const usersFollowers = getUserDetails(users, username)?.followers;
 
 	const handleUserFollow = async () => {
 		try {
@@ -76,6 +82,29 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 			showToast(error.message, "error");
 		} finally {
 			setIsFollowingService(false);
+		}
+	};
+
+	const handleShowUserList = (e, type) => {
+		e.stopPropagation();
+		if (!usersFollowing?.length && !usersFollowers?.length) return;
+
+		if (type === "FOLLOWING" && usersFollowing?.length) {
+			dispatch(
+				editModalVisibility({
+					modalVisibilityState: true,
+					modalChildren: "USER_LIST",
+				})
+			);
+			dispatch(setUserList({ list: usersFollowing, type: "FOLLOWING" }));
+		} else if (type === "FOLLOWERS" && usersFollowers?.length) {
+			dispatch(
+				editModalVisibility({
+					modalVisibilityState: true,
+					modalChildren: "USER_LIST",
+				})
+			);
+			dispatch(setUserList({ list: usersFollowers, type: "FOLLOWERS" }));
 		}
 	};
 
@@ -134,9 +163,27 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 						</div>
 					</div>
 					<div className="w-full mt-5 flex flex-wrap flex-row gap-4 items-center justify-center sm:justify-around mb-5">
-						<h6>Followers: {followers?.length}</h6>
+						<h6
+							className={`${
+								usersFollowers?.length
+									? "cursor-pointer underline hover:text-sky-500"
+									: "cursor-default"
+							}`}
+							onClick={(e) => handleShowUserList(e, "FOLLOWERS")}
+						>
+							Followers: {usersFollowers?.length}
+						</h6>
 						<h6>Posts: {userPostsLength}</h6>
-						<h6>Following: {following?.length}</h6>
+						<h6
+							className={`${
+								usersFollowers?.length
+									? "cursor-pointer underline hover:text-sky-500"
+									: "cursor-default"
+							}`}
+							onClick={(e) => handleShowUserList(e, "FOLLOWING")}
+						>
+							Following: {usersFollowing?.length}
+						</h6>
 					</div>
 				</div>
 			</div>
