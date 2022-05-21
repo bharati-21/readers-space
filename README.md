@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+<h1 align="center">
+  <br />
+  <a href="https://readers-space.netlify.app/">
+      <img src="https://user-images.githubusercontent.com/51514137/169649556-35b3183d-77c4-4435-a56c-597633da3533.png" width="200"/>
+  </a>
+  <br />
+  ReadersSpace 
+</h1>
+<br />
+<h3 align="center">
+    Discover Books, Readers, and Friends!
+</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+<img src="https://img.shields.io/badge/version-v1-green" align="center"/>
+<img src="https://img.shields.io/badge/label-open--source-blue" align="center"/>
+    <a href="https://app.netlify.com/sites/stream-tunes/deploys" align="center">
+        <img src="https://api.netlify.com/api/v1/badges/8b083945-912e-4f2d-90fd-9f8bcf06aeee/deploy-status" align="center"/>
+    </a>
+</div>
+<br />
 
-## Available Scripts
+<!-- TABLE OF CONTENTS -->
+<details>
+    <summary>Content</summary>
+    <ol>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#technology-languages-used">Technology/ Languages Used</a></li>
+        <li><a href="#how-to-run-locally">How to Run Locally</a></li>
+        <li><a href="#how-to-contribute">How to Contribute</a></li>
+        <li><a href="#social-links">Social Links</a></li>
+    </ol>
+</details>
 
-In the project directory, you can run:
+<br />
 
-### `yarn start`
+<!-- Project Introduction -->
+## **Introduction**
+<p>
+    ReadersSpace is a social library application that allows users to share their ideas and musings about books!
+</p>
+<br />
+Visit <a href="https://readers-space.netlify.app/">ReadersSpace</a> and discover books, readers, and friends!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br />
+<br />
+<!-- FEATURES -->
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **FEATURES**
+- Users can create a post and add text/ emojis to their post.
+- Users can comment, like on any post
+- Users can bookmark any posts and view them in the bookmarks page
+- Users can see a list of posts from the users they follow.
+- Users can sort the posts on their feed by Date, Trending & Recent
+- Users can view their profile and edit it
+- Users can also see others' profile
+- Users can follow/ unfollow any other user
+- Users can search for other users by their username, first or lastname
+- Infinite Scroll
 
-### `yarn test`
+<br />
+<br />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- BUILT WITH -->
 
-### `yarn build`
+## **Technology/ Languages Used**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- CSS
+- Tailwind CSS
+- Redux Tooklkit
+- ReactJS
+- React Router v6
+- MockBee
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br />
+<br />
+<!-- HOW TO RUN LOCALLY -->
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## **How to Run locally**
+- To run this project locally, use the following command in your CLI:
 
-### `yarn eject`
+```bash
+  git clone https://github.com/bharati-21/readers-space.git
+```
+- Open your favorite code editor and run locally!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<br />
+<br />
+<!-- CONTRIBUTING -->
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## **How to Contribute**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Contributions and ideas to this library are more than welcome! <br />
+If you want to contribute or have ideas for this project, just fork the repo and create a PR. If you spot a bug, you are more than welcome to open an issue! Do ⭐ this project! 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Contribution Guidelines
+1. Fork the Project
+2. Creata a branch for your feature/ idea. Please do give a good name for the branch that tells about the feature.
+3. Stage your changes
+4. Commit your changes
+5. Push the changes to your remote branch
+6. Open and Create a PR
 
-## Learn More
+<br />
+<br />
+<!-- SOCIAL LINKS -->
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## **Social Links**
+Let's connect and talk about development, music, books and much more 🌠! 
+> [GitHub Profile](https://github.com/bharati-21) &nbsp;&middot;&nbsp; 
+> [LinkedIn Profile](https://www.linkedin.com/in/bharati-subramanian-29734b152/) &nbsp;&middot;&nbsp;
+> [Twitter Profile](https://twitter.com/_bhaaratii) &nbsp;&middot;&nbsp;
+> [Dev.to Blogs](https://dev.to/bharati21) &nbsp;&middot;&nbsp;
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br />
 
-### Code Splitting
+Check out my developer portfolio 🌐-
+> [Bharati Subramanian](https://bharati-21.github.io/) 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<hr />
+<p align="center">Copyright &copy; 2022 
+  <br />
+  <a href="https://bharati-21.github.io/">👩‍💻 Bharati Subramanian</a>
+</p>
