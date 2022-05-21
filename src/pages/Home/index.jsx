@@ -9,6 +9,7 @@ import {
 	PostContainer,
 	PostsList,
 	getAuthState,
+	signupUser,
 } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader, SortOptions } from "components";
@@ -20,11 +21,27 @@ const Home = () => {
 		authUser: { username },
 	} = useSelector(getAuthState);
 	const dispatch = useDispatch();
-	const { posts, postsLoading, postsError, sortBy } = useSelector(getPostsState);
+	const { posts, postsLoading, postsError, sortBy } =
+		useSelector(getPostsState);
 	const { users } = useSelector(getUsersState);
 	const { showToast } = useToast();
 
 	const { setDocumentTitle } = useDocumentTitle();
+
+	const reSignupUser = async () => {
+		try {
+			const response = await dispatch(
+				signupUser(
+					JSON.parse(localStorage.getItem("readers-space-user"))
+				)
+			);
+			if (response?.error) throw new Error("Re signup failed");
+		} catch (error) {
+			showToast(
+				"Something went really wrong. Please logout and login again."
+			);
+		}
+	};
 
 	useEffect(() => {
 		setDocumentTitle("ReadersSpace | Home");
@@ -41,6 +58,13 @@ const Home = () => {
 				showToast(error.message, "error");
 			}
 		})();
+
+		if (
+			JSON.parse(localStorage.getItem("readers-space-user")) &&
+			!getUserDetails(users, username)
+		) {
+			reSignupUser();
+		}
 	}, []);
 
 	const authUserDetails = getUserDetails(users, username);
@@ -54,7 +78,7 @@ const Home = () => {
 			: false
 	);
 
-    const sortedPosts = getSortedPosts(followingUsersPosts, sortBy)
+	const sortedPosts = getSortedPosts(followingUsersPosts, sortBy);
 
 	return postsLoading ? (
 		<Loader />
