@@ -5,6 +5,7 @@ import { getAuthState, getBookmarks, getPostsState, PostsList } from "features";
 import errorImage from "images/error-image.svg";
 import { Loader } from "components";
 import { useDocumentTitle, useToast } from "hooks";
+import { getSortedPosts } from "utils";
 
 const Bookmarks = () => {
 	const { posts, bookmarks, postsLoading, postsError } =
@@ -35,6 +36,8 @@ const Bookmarks = () => {
 		bookmarks.includes(post._id)
 	);
 
+	const sortedPosts = getSortedPosts(bookmarkedPosts, "LATEST");
+
 	return postsLoading ? (
 		<Loader />
 	) : postsError ? (
@@ -54,8 +57,8 @@ const Bookmarks = () => {
 	) : (
 		<section className="p-0 md:px-8 border-0 md:border-l lg:border-r border-x-sky-400 flex flex-col items-center justify-start w-full">
 			<div className="max-w-[1080px] w-full flex flex-col justify-start items-center">
-				{bookmarks.length ? (
-					<PostsList posts={bookmarkedPosts} />
+				{sortedPosts?.length ? (
+					<PostsList posts={sortedPosts} />
 				) : (
 					<h3 className="text-2xl font-semibold pt-20 text-center sm:mt-5 mt-16">
 						You don't have any posts bookmarked!

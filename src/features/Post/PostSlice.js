@@ -17,6 +17,7 @@ const initialState = {
 	postsLoading: true,
 	postsError: null,
 	bookmarks: [],
+	sortBy: "LATEST",
 };
 
 export const getPosts = createAsyncThunk(
@@ -149,7 +150,11 @@ export const addCommentToPost = createAsyncThunk(
 const postsSlice = createSlice({
 	name: "posts",
 	initialState,
-	reducers: {},
+	reducers: {
+		setSortByOption: (state, action) => {
+			state.sortBy = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getPosts.pending, (state) => {
@@ -228,3 +233,4 @@ const postsSlice = createSlice({
 
 export const getPostsState = (state) => state.posts;
 export const postsReducer = postsSlice.reducer;
+export const { setSortByOption } = postsSlice.actions;

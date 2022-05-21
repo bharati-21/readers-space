@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { editModalVisibility, getModalState, setPostToEdit } from "features";
 
-const useOnOutsideClick = (modalReference) => {
+const useOnOutsideClick = (modalReference, handler) => {
 	const dispatch = useDispatch();
 
 	const modal = useSelector(getModalState);
 	const { postToEdit } = modal;
 
 	const handleOutsideClick = (event) => {
+		if (handler) {
+			handler();
+			return;
+		}
 		if (
 			modalReference.current &&
 			modalReference.current.contains(event.target)

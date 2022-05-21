@@ -4,19 +4,20 @@ const useInfiniteScroll = (posts) => {
 	const [pageNumber, setPageNumber] = useState(1);
 	const lastElementReference = useRef(null);
 	const postsLength = posts.length;
-	const hasMorePosts = pageNumber <= Math.ceil(postsLength / pageNumber);
+	const hasMorePosts = pageNumber <= Math.ceil(postsLength / 3);
 	const [loading, setLoading] = useState(false);
 
-	let interval = null;
+    let interval;
 
 	const handleObserver = (entries) => {
 		const [target] = entries;
 
 		if (target.isIntersecting && hasMorePosts) {
 			setLoading(true);
+
 			interval = setTimeout(() => {
-				setLoading(false);
 				setPageNumber((prevPageNumber) => prevPageNumber + 1);
+				setLoading(false);
 			}, 800);
 		}
 	};
@@ -35,7 +36,7 @@ const useInfiniteScroll = (posts) => {
 		};
 	}, [hasMorePosts, handleObserver]);
 
-	return { lastElementReference, pageNumber, hasMorePosts, loading };
+	return { loading, lastElementReference, pageNumber, hasMorePosts };
 };
 
 export { useInfiniteScroll };

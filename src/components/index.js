@@ -7,3 +7,5 @@ export { CircleProgressBar } from "./CirlceProgress";
 export { EditProfileForm } from "./EditProfileForm";
 export { SuggestedUsers } from "./SuggestedUsers";
 export { UsersList } from "./UsersList";
+export { SortOptions } from "./SortOptions";
+export { SearchResultsContainer } from "./SearchResultsContainer";

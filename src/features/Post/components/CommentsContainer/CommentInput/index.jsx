@@ -4,12 +4,17 @@ import TextareaAutosize from "react-textarea-autosize";
 
 import { useToast } from "hooks";
 import { CircleProgressBar } from "components";
-import { addCommentToPost, getAuthState } from "features";
+import { addCommentToPost, getAuthState, getUsersState } from "features";
+import { getUserDetails } from "utils";
 
 const CommentInput = ({ postId }) => {
 	const [commentText, setCommentText] = useState("");
 	const dispatch = useDispatch();
-	const { authToken } = useSelector(getAuthState);
+	const {
+		authToken,
+		authUser: { username },
+	} = useSelector(getAuthState);
+	const { users } = useSelector(getUsersState);
 
 	const { showToast } = useToast();
 
@@ -40,13 +45,16 @@ const CommentInput = ({ postId }) => {
 	const commentTextChange = (event) => setCommentText(event.target.value);
 
 	const commentTextLength = 250 - commentText.trim().length;
+	const { profileImage } = JSON.parse(
+		localStorage.getItem("readers-space-user")
+	);
 
 	return (
 		<div className="flex flex-row gap-2 items-start justify-start fap-2 w-full rounded-sm">
 			<img
 				className="inline-block sm:w-8 sm:h-8 h-6 w-6 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
-				src="https://i.pravatar.cc/200"
-				alt="Jane Doe Profile Image"
+				src={profileImage}
+				alt={`${username} profile image`}
 			/>
 			<form
 				className="relative flex flex-row items-start flex-1 justify-center"

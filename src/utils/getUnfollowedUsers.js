@@ -1,4 +1,4 @@
-import { getUserDetails } from "./getAuthUserDetails";
+import { getUserDetails } from "./getUserDetails";
 
 const getFollowingUsers = (users, username) =>
 	getUserDetails(users, username)?.following;
