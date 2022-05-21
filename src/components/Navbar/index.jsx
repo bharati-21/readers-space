@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logoImage from "images/readers-space-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,7 +9,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, logoutUser } from "features";
-import { useDebounce, useToast } from "hooks";
+import { useDebounce, useOnOutsideClick, useToast } from "hooks";
 import { SearchResultsContainer } from "components";
 
 const Navbar = () => {
@@ -34,6 +34,10 @@ const Navbar = () => {
 
 	const { isAuth } = auth;
 
+	const [showSearchList, setShowSearchList] = useState(true);
+	const searchListReference = useRef(null);
+	useOnOutsideClick(searchListReference, () => setShowSearchList(false));
+
 	const handleLogout = async () => {
 		try {
 			const response = await dispatch(logoutUser());
@@ -50,6 +54,10 @@ const Navbar = () => {
 		document.body.className = theme;
 		localStorage.setItem("readers-space-theme", theme);
 	}, [theme]);
+
+	useEffect(() => {
+		setShowSearchList(true);
+	}, [searchQueryText]);
 
 	const handleThemeChange = () => {
 		setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
@@ -97,11 +105,14 @@ const Navbar = () => {
 										/>
 									</div>
 								</form>
-								<SearchResultsContainer
-									searchLoading={searchLoading}
-									searchedUsers={searchedUsers}
-									searchText={searchQueryText}
-								/>
+								{showSearchList ? (
+									<SearchResultsContainer
+										searchLoading={searchLoading}
+										searchedUsers={searchedUsers}
+										searchText={searchQueryText}
+										ref={searchListReference}
+									/>
+								) : null}
 							</div>
 						) : null}
 						<div className="flex gap-4 items-center justify-center">
@@ -156,11 +167,14 @@ const Navbar = () => {
 								/>
 							</div>
 						</form>
-						<SearchResultsContainer
-							searchLoading={searchLoading}
-							searchedUsers={searchedUsers}
-							searchText={searchQueryText}
-						/>
+						{showSearchList ? (
+							<SearchResultsContainer
+								searchLoading={searchLoading}
+								searchedUsers={searchedUsers}
+								searchText={searchQueryText}
+								ref={searchListReference}
+							/>
+						) : null}
 					</div>
 				) : null}
 			</nav>
