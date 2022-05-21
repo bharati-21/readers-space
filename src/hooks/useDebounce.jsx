@@ -33,7 +33,7 @@ const useDebounce = () => {
 		debounce((searchText) => {
 			setSearchedUsers(getSearchedUsers(users, searchText));
 		}),
-		[]
+		[users]
 	);
 
 	return {
