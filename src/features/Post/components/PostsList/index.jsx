@@ -1,5 +1,4 @@
 import React from "react";
-
 import { PostItem } from "features";
 import { useInfiniteScroll } from "hooks";
 import inifnityLoading from "images/loading-infinity.svg";
@@ -9,6 +8,7 @@ const PostsList = ({ posts }) => {
 		useInfiniteScroll(posts);
 
 	const postsToDisplay = posts?.slice(0, pageNumber * 3);
+
 	return (
 		<div className="w-full flex justify-center items-center gap-8 my-12 flex-col">
 			{postsToDisplay?.map((post) => (

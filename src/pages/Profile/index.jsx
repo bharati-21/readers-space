@@ -81,7 +81,7 @@ const Profile = () => {
 				userProfile={userProfile}
 				userPostsLength={sortedPosts?.length}
 			/>
-			{userPosts.length ? (
+			{sortedPosts?.length ? (
 				<PostsList posts={sortedPosts} />
 			) : (
 				<h3 className="text-lg md:text-2xl mt-3 text-green-600 font-semibold text-center">
