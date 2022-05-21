@@ -17,7 +17,7 @@ const useDebounce = () => {
 		}
 	};
 
-    const debounce = (callback, delay = 1000) => {
+	const debounce = (callback, delay = 1000) => {
 		let timeout;
 		return (...args) => {
 			setSearchLoading(true);
@@ -27,7 +27,7 @@ const useDebounce = () => {
 				callback(...args);
 			}, delay);
 		};
-	}
+	};
 
 	const updateSearchedUsers = useCallback(
 		debounce((searchText) => {
@@ -35,8 +35,6 @@ const useDebounce = () => {
 		}),
 		[]
 	);
-
-	
 
 	return {
 		searchLoading,
