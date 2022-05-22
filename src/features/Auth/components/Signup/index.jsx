@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useDocumentTitle, useToast } from "hooks";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthState, signupUser } from "features";
+import { isFormDataValid } from "utils";
 
 const SignUp = () => {
 	const { setDocumentTitle } = useDocumentTitle();
@@ -12,7 +13,24 @@ const SignUp = () => {
 	const auth = useSelector(getAuthState);
 	const { showToast } = useToast();
 	const navigate = useNavigate();
-    const location = useLocation();
+	const location = useLocation();
+
+	const initialErrorState = {
+		firstNameError: null,
+		lastNameError: null,
+		usernameError: null,
+		passwordError: null,
+		confirmPasswordError: null,
+	};
+
+	const errorReducer = (state, { type, payload: { error, errorValue } }) => {
+		switch (type) {
+			case "RESET_ERROR_STATES":
+				return { ...initialErrorState };
+			case "SET_ERROR":
+				return { ...state, [error]: errorValue };
+		}
+	};
 
 	const [formData, setFormData] = useState({
 		firstName: "",
@@ -21,12 +39,25 @@ const SignUp = () => {
 		password: "",
 		confirmPassword: "",
 	});
+
+	const [formDataError, setFormDataError] = useReducer(
+		errorReducer,
+		initialErrorState
+	);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [error, setError] = useState(null);
 
 	const { firstName, lastName, username, password, confirmPassword } =
 		formData;
+
+	const {
+		firstNameError,
+		lastNameError,
+		usernameError,
+		passwordError,
+		confirmPasswordError,
+	} = formDataError;
 	const { isAuth, authLoading, authError } = auth;
 
 	const handleFormDataChange = ({ target: { name, value } }) => {
@@ -42,6 +73,12 @@ const SignUp = () => {
 					} else setError(null);
 				}
 			}
+		}
+		if (formDataError[name + "Error"]) {
+			setFormDataError({
+				type: "SET_ERROR",
+				payload: { error: name + "Error", errorValue: null },
+			});
 		}
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
@@ -66,10 +103,19 @@ const SignUp = () => {
 
 	const handleSignup = async (event) => {
 		event.preventDefault();
-        if(password !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
+		if (
+			!isFormDataValid(
+				firstName,
+				lastName,
+				username,
+				password,
+				confirmPassword,
+				setFormDataError
+			)
+		) {
+			return;
+		}
+
 		try {
 			const response = await dispatch(signupUser(formData));
 
@@ -125,6 +171,11 @@ const SignUp = () => {
 								onChange={handleFormDataChange}
 							/>
 						</label>
+						{firstNameError && (
+							<span className="error-message text-red-500 text-xs">
+								{firstNameError}
+							</span>
+						)}
 					</div>
 					<div className="form-group w-full">
 						<label
@@ -146,6 +197,11 @@ const SignUp = () => {
 								onChange={handleFormDataChange}
 							/>
 						</label>
+						{lastNameError && (
+							<span className="error-message text-red-500 text-xs">
+								{lastNameError}
+							</span>
+						)}
 					</div>
 					<div className="form-group w-full">
 						<label
@@ -167,6 +223,11 @@ const SignUp = () => {
 								onChange={handleFormDataChange}
 							/>
 						</label>
+						{usernameError && (
+							<span className="error-message text-red-500 text-xs">
+								{usernameError}
+							</span>
+						)}
 					</div>
 					<div className="form-group w-full">
 						<label
@@ -200,6 +261,11 @@ const SignUp = () => {
 								</button>
 							</div>
 						</label>
+						{passwordError && (
+							<span className="error-message text-red-500 text-xs">
+								{passwordError}
+							</span>
+						)}
 					</div>
 					<div className="form-group w-full">
 						<label
@@ -243,9 +309,14 @@ const SignUp = () => {
 								</button>
 							</div>
 						</label>
+						{confirmPasswordError && (
+							<span className="error-message text-red-500 text-xs">
+								{confirmPasswordError}
+							</span>
+						)}
 					</div>
 					{error ? (
-						<div className="error-message w-full mt-2 text-red-500">
+						<div className="error-message w-full mt-2 text-red-500 text-xs">
 							{error}
 						</div>
 					) : null}
@@ -254,7 +325,15 @@ const SignUp = () => {
 							type="submit"
 							className={`btn-primary-full disabled:disabled-btn`}
 							value="Signup"
-							disabled={authLoading || error}
+							disabled={
+								authLoading ||
+								error ||
+								firstNameError ||
+								lastNameError ||
+								usernameError ||
+								passwordError ||
+								confirmPasswordError
+							}
 						/>
 						<Link to="/login" className="btn-primary-link">
 							Already ReadersSpace member? Login
