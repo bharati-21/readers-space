@@ -67,6 +67,14 @@ const userProfileSlice = createSlice({
 			state.userProfile = {};
 			state.userPosts = [];
 		},
+		setUserProfileInitialState: (state, action) => {
+			state.userProfile = {};
+			state.userProfileLoading = true;
+			state.userProfileError = null;
+			state.userPosts = [];
+			state.userPostsLoading = true;
+			state.userPostsError = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -108,4 +116,5 @@ const userProfileSlice = createSlice({
 
 export const getUserProfileState = (state) => state.userProfile;
 export const userProfileReducer = userProfileSlice.reducer;
-export const { removeUserProfile } = userProfileSlice.actions;
+export const { removeUserProfile, setUserProfileInitialState } =
+	userProfileSlice.actions;

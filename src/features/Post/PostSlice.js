@@ -154,6 +154,13 @@ const postsSlice = createSlice({
 		setSortByOption: (state, action) => {
 			state.sortBy = action.payload;
 		},
+		setPostInitialState: (state, action) => {
+			state.posts = [];
+			state.postsLoading = true;
+			state.postsError = null;
+			state.bookmarks = [];
+			state.sortBy = "LATEST";
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -233,4 +240,4 @@ const postsSlice = createSlice({
 
 export const getPostsState = (state) => state.posts;
 export const postsReducer = postsSlice.reducer;
-export const { setSortByOption } = postsSlice.actions;
+export const { setSortByOption, setPostInitialState } = postsSlice.actions;

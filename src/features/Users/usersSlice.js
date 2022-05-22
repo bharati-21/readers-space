@@ -56,6 +56,12 @@ const usersSlice = createSlice({
 		addSuggestedUsers: (state, action) => {
 			state.suggestedUsers = action.payload;
 		},
+		setUsersInitialState: (state, action) => {
+			state.users = [];
+			state.usersLoading = true;
+			state.usersError = null;
+			state.suggestedUsers = [];
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -111,4 +117,4 @@ const usersSlice = createSlice({
 
 export const getUsersState = (state) => state.users;
 export const usersReducer = usersSlice.reducer;
-export const { addSuggestedUsers } = usersSlice.actions;
+export const { addSuggestedUsers, setUsersInitialState } = usersSlice.actions;

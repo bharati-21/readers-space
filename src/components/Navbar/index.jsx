@@ -8,7 +8,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthState, logoutUser } from "features";
+import {
+	getAuthState,
+	logoutUser,
+	setModalInitialState,
+	setPostInitialState,
+	setUserProfileInitialState,
+	setUsersInitialState,
+} from "features";
 import { useDebounce, useOnOutsideClick, useToast } from "hooks";
 import { SearchResultsContainer } from "components";
 
@@ -42,6 +49,9 @@ const Navbar = () => {
 		try {
 			const response = await dispatch(logoutUser());
 			if (response) {
+				dispatch(setUsersInitialState());
+				dispatch(setUserProfileInitialState());
+				dispatch(setPostInitialState());
 				showToast("Logged out successfully.", "success");
 				navigate("/");
 			}

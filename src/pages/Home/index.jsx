@@ -15,7 +15,6 @@ import {
 import errorImage from "images/error-image.svg";
 import { Loader, SortOptions } from "components";
 import { getSortedPosts, getUserDetails } from "utils";
-import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 	const {
