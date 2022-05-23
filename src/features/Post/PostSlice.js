@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
 	bookmarkPostService,
 	deleteBookmarkedPostService,
+	deleteCommentService,
 	deletePostService,
+	editCommentService,
 	editPostService,
 	getBookmarksService,
 	getPostsService,
@@ -147,6 +149,42 @@ export const addCommentToPost = createAsyncThunk(
 	}
 );
 
+export const editComment = createAsyncThunk(
+	"posts/editComment",
+	async (
+		{ authToken, postId, commentId, commentData },
+		{ rejectWithValue }
+	) => {
+		try {
+			const { data } = await editCommentService(
+				authToken,
+				postId,
+				commentId,
+				commentData
+			);
+			return { comments: data.comments, postId };
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const deleteComment = createAsyncThunk(
+	"posts/deleteComment",
+	async ({ authToken, postId, commentId }, { rejectWithValue }) => {
+		try {
+			const { data } = await deleteCommentService(
+				authToken,
+				postId,
+				commentId
+			);
+			return { comments: data.comments, postId };
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 const postsSlice = createSlice({
 	name: "posts",
 	initialState,
@@ -234,7 +272,23 @@ const postsSlice = createSlice({
 					(post) => post._id === action.payload.postId
 				);
 				state.posts[postIndex].comments = action.payload.comments;
-			});
+			})
+			.addCase(
+				editComment.fulfilled,
+				(state, { payload: { postId, comments } }) => {
+					state.posts = state.posts.map((post) =>
+						post._id === postId ? { ...post, comments } : post
+					);
+				}
+			)
+			.addCase(
+				deleteComment.fulfilled,
+				(state, { payload: { postId, comments } }) => {
+					state.posts = state.posts.map((post) =>
+						post._id === postId ? { ...post, comments } : post
+					);
+				}
+			);
 	},
 });
 
