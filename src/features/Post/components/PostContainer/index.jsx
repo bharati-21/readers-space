@@ -11,6 +11,7 @@ import {
 	editPost,
 } from "features";
 import { setPostToEdit } from "features/Modal/modalSlice";
+import { Close, InsertPhoto } from "@mui/icons-material";
 
 const PostContainer = ({ container }) => {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -32,6 +33,7 @@ const PostContainer = ({ container }) => {
 	const [postData, setPostData] = useState(
 		editPostMode ? postToEdit.content : ""
 	);
+	const [postImage, setPostImage] = useState(postToEdit.postImage ?? null);
 	const [wordCount, setWordCount] = useState(250 - postData.length);
 
 	const handleEmojiPickerVisibilityChange = (event) =>
@@ -69,13 +71,14 @@ const PostContainer = ({ container }) => {
 							postData: {
 								...postToEdit,
 								content: postData.trim(),
+								postImage,
 							},
 						})
 				  )
 				: await dispatch(
 						postNewPost({
 							authToken,
-							postData: { content: postData },
+							postData: { content: postData, postImage },
 						})
 				  );
 			if (response.error)
@@ -94,6 +97,45 @@ const PostContainer = ({ container }) => {
 		} catch (error) {
 			showToast(error.message, "error");
 		}
+	};
+
+	const handleOnProfileImageChange = (event) => {
+		const imageFile = event.target.files[0];
+		if (Math.floor(imageFile / 1000000) > 3) {
+			showToast("Image file size should be less than 3MB", "error");
+			return;
+		}
+		if (!imageFile) return;
+		const url = process.env.REACT_APP_CLOUDINARY_URL;
+
+		const formData = new FormData();
+		formData.append("file", imageFile);
+		formData.append(
+			"upload_preset",
+			process.env.REACT_APP_CLOUD_UPLOAD_PRESET
+		);
+
+		fetch(url, {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				setPostImage(data.url);
+			})
+			.catch((error) => {
+				showToast(
+					"Failed to update image. Please try again later.",
+					"error"
+				);
+			});
+	};
+
+	const handleRemoveImage = (event) => {
+		event.stopPropagation();
+		setPostImage(null);
 	};
 
 	const profileImage = JSON.parse(
@@ -119,7 +161,22 @@ const PostContainer = ({ container }) => {
 					onChange={handlePostDataChange}
 				/>
 			</div>
-			<div className="flex flex-row justify-between gap-4 w-full items-center">
+			{postImage ? (
+				<div className="relative max-w-full flex-col items-center justify-center mx-auto">
+					<img
+						src={postImage}
+						alt="Uploaded image"
+						className="max-w-[300px] mx-auto w-full"
+					/>
+					<button
+						className="absolute top-2 right-2"
+						onClick={handleRemoveImage}
+					>
+						<Close />
+					</button>
+				</div>
+			) : null}
+			<div className="flex flex-row justify-between gap-2 w-full items-center flex-wrap">
 				<div className="file-emoji-wrapper flex flex-row justify-center items-center gap-4">
 					<div className="emoji-picker-container">
 						<button
@@ -140,6 +197,25 @@ const PostContainer = ({ container }) => {
 							/>
 						) : null}
 					</div>
+					<label
+						className={`cursor-pointer ${
+							postImage ? "disabled-btn" : "btn-primary"
+						} py-0.5 px-1 flex flex-col items-center justify-center`}
+					>
+						<InsertPhoto
+							className={`${
+								postImage ? "text-gray-400" : "text-gray-100"
+							}`}
+						/>
+						<input
+							type="file"
+							name="profileImage"
+							accept="image/*"
+							className="hidden disabled:disabled-btn"
+							disabled={postImage}
+							onChange={handleOnProfileImageChange}
+						/>
+					</label>
 				</div>
 				<div className="flex flex-row gap-4 justify-center items-center">
 					<div
@@ -156,8 +232,10 @@ const PostContainer = ({ container }) => {
 						className="disabled:disabled-btn btn-primary py-1 px-4"
 						disabled={
 							wordCount < 0 ||
-							wordCount === 250 ||
-							(editPostMode && postData === postToEdit.content)
+							(wordCount === 250 && !postImage) ||
+							(editPostMode &&
+								postData.trim() === postToEdit.content &&
+								postImage === postToEdit.postImage)
 						}
 					>
 						{editPostMode ? "Save" : "Post"}

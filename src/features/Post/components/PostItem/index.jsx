@@ -6,6 +6,7 @@ import {
 	Bookmark,
 	Comment,
 	MoreHoriz,
+	Share,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -57,6 +58,7 @@ const PostItem = ({ post, location }) => {
 		likes: { likeCount, likedBy },
 		comments,
 		createdAt,
+		postImage,
 	} = post;
 
 	const getIsPostLikedByAuthUser = () =>
@@ -207,6 +209,14 @@ const PostItem = ({ post, location }) => {
 		}
 	}
 
+	const handleCopyPostLinkToClipboard = (event) => {
+		navigator.clipboard
+			.writeText(`https://readers-space.netlify.app/post/${post.id}`)
+			.then(() => showToast("Copied post link to clipboard."));
+	};
+
+	console.log(postImage);
+
 	return (
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm max-w-[1080px]">
 			<div
@@ -234,6 +244,13 @@ const PostItem = ({ post, location }) => {
 					<div className="text-slate-900 font-normal rounded-sm bg-inherit text-inherit min-h-max text-sm whitespace-pre-wrap post-content">
 						<Hyphenated>{content}</Hyphenated>
 					</div>
+					{postImage ? (
+						<img
+							src={postImage}
+							alt="Uploaded image"
+							className="max-w-[300px] mx-auto w-full"
+						/>
+					) : null}
 				</div>
 				{authUsername === username ? (
 					<div className="more-options-container relative">
@@ -269,7 +286,7 @@ const PostItem = ({ post, location }) => {
 					<div
 						className={`ml-0.5 text-xs flex flex-row items-start justify-start gap-1.5 text-gray-400 ${
 							likeCount ? "cursor-pointer" : "cursor-default"
-						}`}
+						} w-max`}
 						onClick={handleShowLikedUserList}
 					>
 						<Favorite className="text-sky-400 text-xs cursor-auto favorite-icon" />
@@ -310,6 +327,12 @@ const PostItem = ({ post, location }) => {
 						disabled={loadingBookmarkService}
 					>
 						{isPostInBookmarks ? <Bookmark /> : <BookmarkBorder />}
+					</button>
+					<button
+						className="text-sky-400 hover:text-sky-500 disabled:disabled-icon-btn"
+						onClick={handleCopyPostLinkToClipboard}
+					>
+						<Share />
 					</button>
 				</div>
 			</div>
