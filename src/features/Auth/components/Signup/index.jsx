@@ -110,7 +110,8 @@ const SignUp = () => {
 				username,
 				password,
 				confirmPassword,
-				setFormDataError
+				setFormDataError,
+				setError
 			)
 		) {
 			return;

@@ -4,7 +4,8 @@ const isFormDataValid = (
 	username,
 	password,
 	confirmPassword,
-	setFormDataError
+	setFormDataError,
+	setError
 ) => {
 	const isMinPasswordLength = (password) => password.trim().length >= 7;
 	const isMinNameLength = (name) => name.trim().length >= 2;
