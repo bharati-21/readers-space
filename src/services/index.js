@@ -16,3 +16,5 @@ export { editUserProfileService } from "./user-profile-services/editUserProfileS
 export { getAllUsersService } from "./users-services/getAllUsersService";
 export { postFollowUserService } from "./users-services/postFollowUserService";
 export { postUnfollowUserService } from "./users-services/postUnfollowUserService";
+export { editCommentService } from "./post-services/editCommentService";
+export { deleteCommentService } from "./post-services/deleteCommentService";

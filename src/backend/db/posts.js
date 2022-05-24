@@ -11,6 +11,7 @@ export const posts = [
 		_id: uuid(),
 		content:
 			"Progress lies not in enhancing what is, but in advancing toward what will be.",
+		postImage: null,
 		likes: {
 			likeCount: 2,
 			likedBy: [
@@ -67,6 +68,7 @@ export const posts = [
 		_id: uuid(),
 		content:
 			"The longest period I went without picking a book was a month! It was super weird",
+		postImage: null,
 		likes: {
 			likeCount: 4,
 			likedBy: [
@@ -137,6 +139,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `A little girl just ran into the library screaming "Books! BOOKS! BOOOOKS! books! BOOKS!" and honestly my day can't get better than that`,
+		postImage: null,
 		likes: {
 			likeCount: 2,
 			likedBy: [
@@ -168,6 +171,7 @@ export const posts = [
 		_id: uuid(),
 		content: `Harry Potter and that's it that's the book...\n"Ah yes, of course, I haven't told you," said Dumbledore.
         `,
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -192,6 +196,7 @@ export const posts = [
 		_id: uuid(),
 		content:
 			"if you speak to me when i'm reading i will find a way to break into your home and force you to listen to my feelings on ostriches until you agree never to invade the world i'm visiting again.",
+		postImage: null,
 		likes: {
 			likeCount: 6,
 			likedBy: [
@@ -264,6 +269,7 @@ export const posts = [
 		_id: uuid(),
 		content:
 			"my ideal partner is thick, has a tough spine, travels with me wherever I go, and might actually be a book.",
+		postImage: null,
 		likes: {
 			likeCount: 0,
 			likedBy: [],
@@ -279,6 +285,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: "I love blue food and books. Oh, and obviously you Annabeth!",
+		postImage: null,
 		likes: {
 			likeCount: 4,
 			likedBy: [
@@ -339,6 +346,7 @@ export const posts = [
 		_id: uuid(),
 		content:
 			"God bless Jane Austen for naming the prettiest, kindest, most generous, most patient character in Pride and Prejudice after herself that is self-love and I am on board",
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -362,6 +370,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `reads book: *favorite character dies*\nme: maybe if i read this again he won't die`,
+		postImage: null,
 		likes: {
 			likeCount: 7,
 			likedBy: [
@@ -442,6 +451,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `You should be able to call into work because you are mourning the end of a really good book.`,
+		postImage: null,
 		likes: {
 			likeCount: 0,
 			likedBy: [],
@@ -457,6 +467,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: "Starting a cover band called book so no one can judge us.",
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -493,6 +504,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: "I wish someone would pay me to read books.",
+		postImage: null,
 		likes: {
 			likeCount: 3,
 			likedBy: [
@@ -544,6 +556,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `me: I love that character\nauthor: *laughs in evil*`,
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -567,6 +580,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `I do not enjoy people. All I enjoy is books.`,
+		postImage: null,
 		likes: {
 			likeCount: 0,
 			likedBy: [],
@@ -582,6 +596,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `Reach for a book. It's a weapon.`,
+		postImage: null,
 		likes: {
 			likeCount: 3,
 			likedBy: [
@@ -633,6 +648,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `When someone calls me a nerd for reading/ writing.\nme: Oh yeah, I'm not embarassed by that!`,
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -657,6 +673,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `Me: Makes a list of books to read in TBR\n*New books released*\nMe: Throws list away. Chaos Rule.`,
+		postImage: null,
 		likes: {
 			likeCount: 2,
 			likedBy: [
@@ -702,6 +719,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `bookworm culture is buying highly anticipated new releases while having 72837288383 books in your room that haven't been read or touched`,
+		postImage: null,
 		likes: {
 			likeCount: 1,
 			likedBy: [
@@ -738,6 +756,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `Chai aur Kitaab ♥`,
+		postImage: null,
 		likes: {
 			likeCount: 0,
 			likedBy: [],
@@ -753,6 +772,7 @@ export const posts = [
 	{
 		_id: uuid(),
 		content: `There's no high like reading books the entire day! A day well spent.`,
+		postImage: null,
 		likes: {
 			likeCount: 4,
 			likedBy: [

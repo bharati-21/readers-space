@@ -55,6 +55,7 @@
 	}
 
 	.progress-ring {
+		flex-shrink: 0;
 		cursor: auto;
 		width: 2rem;
 		height: 2rem;
@@ -87,9 +88,14 @@
 		transform: translate(-50%, -50%);
 	}
 
-    .post-content {
-        overflow-wrap: break-word;
-    }
+	.post-content {
+		overflow-wrap: break-word;
+	}
+
+	svg.mui {
+		height: 1rem;
+		width: 1rem;
+	}
 }
 
 @layer components {
