@@ -212,9 +212,7 @@ const PostItem = ({ post, location }) => {
 	const handleCopyPostLinkToClipboard = (event) => {
 		console.log("Copy to clipboard");
 		navigator.clipboard
-			.writeText(
-				`https://readers-space.netlify.app/post/share/${post.id}`
-			)
+			.writeText(`/post/share/${post.id}`)
 			.then(() => showToast("Copied post link to clipboard."));
 	};
 
