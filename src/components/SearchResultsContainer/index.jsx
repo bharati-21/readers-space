@@ -20,6 +20,10 @@ const SearchResultsContainer = ({
 					userList={searchedUsers}
 					inComponent="SEARCH_RESULTS"
 				/>
+			) : searchText && !searchedUsers.length ? (
+				<div className="flex list-none flex-col gap-4 justify-start w-full bg-gray-100  p-3  text-slate-900 border border-gray-400">
+					No Users Found
+				</div>
 			) : null}
 		</div>
 	);
