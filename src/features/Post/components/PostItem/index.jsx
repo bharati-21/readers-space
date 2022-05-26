@@ -210,12 +210,13 @@ const PostItem = ({ post, location }) => {
 	}
 
 	const handleCopyPostLinkToClipboard = (event) => {
+		console.log("Copy to clipboard");
 		navigator.clipboard
-			.writeText(`https://readers-space.netlify.app/post/${post.id}`)
+			.writeText(
+				`https://readers-space.netlify.app/post/share/${post.id}`
+			)
 			.then(() => showToast("Copied post link to clipboard."));
 	};
-
-	console.log(postImage);
 
 	return (
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm max-w-[1080px]">

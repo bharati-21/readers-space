@@ -9,6 +9,7 @@ import {
 	Home,
 	LandingPage,
 	Profile,
+	SharedPost,
 	SinglePost,
 } from "pages";
 import { ProtectedRoutes } from "./ProtectedRoutes";
@@ -26,6 +27,15 @@ const NavRoutes = () => {
 					<Route path="/post/:postId" element={<SinglePost />}>
 						<Route
 							path="/post/:postId"
+							element={<CommentsContainer />}
+						/>
+					</Route>
+					<Route
+						path="post/share/:sharedPostId"
+						element={<SharedPost />}
+					>
+						<Route
+							path="post/share/:sharedPostId"
 							element={<CommentsContainer />}
 						/>
 					</Route>
