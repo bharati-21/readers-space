@@ -210,9 +210,8 @@ const PostItem = ({ post, location }) => {
 	}
 
 	const handleCopyPostLinkToClipboard = (event) => {
-		console.log("Copy to clipboard");
 		navigator.clipboard
-			.writeText(`/post/share/${post.id}`)
+			.writeText(`${window.location.origin}/post/share/${post.id}`)
 			.then(() => showToast("Copied post link to clipboard."));
 	};
 
