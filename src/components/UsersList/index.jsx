@@ -35,7 +35,7 @@ const UsersList = ({ userList, inComponent }) => {
 	};
 
 	const handleUserInfoClicked = (username) => {
-		navigate(`/profile/${username}`);
+		if (inComponent === "SEARCH_RESULTS") navigate(`/profile/${username}`);
 	};
 
 	const mappedUsersList = userList?.map((user) => {
@@ -49,9 +49,10 @@ const UsersList = ({ userList, inComponent }) => {
 				key={user.username}
 				className={`flex text-left flex-row items-start justify-between gap-2 ${
 					inComponent === "SEARCH_RESULTS"
-						? "border-b last:border-b-0 border-b-gray-400 pb-2 px-2 first:pt-2"
+						? "border-b last:border-b-0 border-b-gray-400 pb-2 px-2 first:pt-2 cursor-pointer w-full"
 						: "border-none"
 				} ${inComponent === "MODAL" ? "p-2" : "p-0"}`}
+				onClick={(e) => handleUserInfoClicked(user.username)}
 			>
 				<li className="flex flex-row items-start justify-between w-full">
 					<div className="user-info gap-2 flex flex-row items-start justfiy-between">
