@@ -12,7 +12,7 @@ import {
 import { useToast } from "hooks";
 import { getUserDetails } from "utils";
 
-const UsersList = ({ userList, inComponent, type }) => {
+const UsersList = ({ userList, inComponent }) => {
 	const {
 		authUser: { username },
 		authToken,
@@ -65,9 +65,7 @@ const UsersList = ({ userList, inComponent, type }) => {
 				: user;
 
 		const following = getUserDetails(users, username)?.following;
-		const isFollowing = following?.find(
-			(followingUser) => followingUser.username === user.username
-		)
+		const isFollowing = getUserDetails(following, user.username)
 			? true
 			: false;
 
