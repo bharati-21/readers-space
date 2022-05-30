@@ -10,14 +10,14 @@ const useOnOutsideClick = (modalReference, handler) => {
 	const { postToEdit } = modal;
 
 	const handleOutsideClick = (event) => {
-		if (handler) {
-			handler();
-			return;
-		}
 		if (
 			modalReference.current &&
 			modalReference.current.contains(event.target)
 		) {
+			return;
+		}
+		if (handler) {
+			handler();
 			return;
 		}
 		dispatch(
