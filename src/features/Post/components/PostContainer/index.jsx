@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import Picker from "emoji-picker-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "hooks";
+import { useToast, useOnOutsideClick } from "hooks";
 import {
 	postNewPost,
 	getAuthState,
@@ -35,11 +35,15 @@ const PostContainer = ({ container }) => {
 	);
 	const [postImage, setPostImage] = useState(postToEdit.postImage ?? null);
 	const [wordCount, setWordCount] = useState(250 - postData.length);
+	const emojiRef = useRef(null);
 
-	const handleEmojiPickerVisibilityChange = (event) =>
+	const handleEmojiPickerVisibilityChange = (event) => {
+		event.stopPropagation();
 		setShowEmojiPicker((prevShowEmojiPicker) => !prevShowEmojiPicker);
+	};
 
 	const handleEmojiSelected = (event, emojiObject) => {
+		event.stopPropagation();
 		const selectedEmoji = emojiObject.emoji;
 		setPostData((prevPostData) => prevPostData + selectedEmoji);
 		setWordCount(250 - (postData.length + selectedEmoji.length));
@@ -48,7 +52,7 @@ const PostContainer = ({ container }) => {
 	const handlePostDataChange = (event) => {
 		const postContent = event.target.value;
 		setPostData(postContent);
-		setWordCount(250 - postContent.trim().length);
+		setWordCount(250 - postContent.length);
 	};
 
 	const handleCreatePost = async (event) => {
@@ -142,6 +146,8 @@ const PostContainer = ({ container }) => {
 		localStorage.getItem("readers-space-user")
 	).profileImage;
 
+	useOnOutsideClick(emojiRef, () => setShowEmojiPicker(false));
+
 	return (
 		<form
 			className="new-post-container shadow-sm rounded-sm bg-gray-100 dark:bg-slate-800 flex flex-col w-full gap-4 p-4"
@@ -178,7 +184,7 @@ const PostContainer = ({ container }) => {
 			) : null}
 			<div className="flex flex-row justify-between gap-2 w-full items-center flex-wrap">
 				<div className="file-emoji-wrapper flex flex-row justify-center items-center gap-4">
-					<div className="emoji-picker-container">
+					<div className="emoji-picker-container" ref={emojiRef}>
 						<button
 							type="button"
 							className="btn-primary py-0.5 px-1"
