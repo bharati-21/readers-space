@@ -31,11 +31,11 @@ const NavRoutes = () => {
 						/>
 					</Route>
 					<Route
-						path="post/share/:sharedPostId"
+						path="/post/share/:sharedPostId"
 						element={<SharedPost />}
 					>
 						<Route
-							path="post/share/:sharedPostId"
+							path="/post/share/:sharedPostId"
 							element={<CommentsContainer />}
 						/>
 					</Route>
