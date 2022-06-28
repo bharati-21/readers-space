@@ -9,6 +9,145 @@ import { formatDate } from "../utils/authUtils";
 export const posts = [
 	{
 		_id: uuid(),
+		content: "Good blurb!",
+		postImage:
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1653879802/FEvyvsiXsAY6Yjc_mg5kmj.jpg",
+		likes: {
+			likeCount: 3,
+			likedBy: [
+				{
+					firstName: "Jane",
+					lastName: "Doe",
+					username: "janedoe",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722016/landingImg_dff0ku.png",
+				},
+				{
+					_id: uuid(),
+					firstName: "Hermione",
+					lastName: "Granger",
+					username: "hergranger",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722029/latest_ccm17c.jpg",
+				},
+				{
+					firstName: "Annabeth",
+					lastName: "Chase",
+					username: "annachase",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
+				},
+			],
+			dislikedBy: [],
+		},
+		username: "bhaaratii",
+		profileImage:
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721980/Bharati2_qxscpm.png",
+		createdAt: new Date("May 12, 2022 20:10:05"),
+		updatedAt: formatDate(),
+		comments: [
+			{
+				_id: uuid(),
+				username: "annachase",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
+				text: "Haha, yes definitely!",
+				createdAt: new Date("May 12, 2022 22:42:45"),
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+			},
+			{
+				_id: uuid(),
+				username: "shubhamsoni",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721963/photo-1633332755192-727a05c4013d_qo2tty.jpg",
+				text: "Lol your posts are hilarious!",
+				createdAt: new Date("May 13, 2022 16:15:05"),
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+			},
+		],
+	},
+	{
+		_id: uuid(),
+		content: "I'm so so evil...",
+		postImage:
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1653880350/464153067332845568-png__700_dlx1wo.jpg",
+		likes: {
+			likeCount: 4,
+			likedBy: [
+				{
+					firstName: "Hermione",
+					lastName: "Granger",
+					username: "hergranger",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722029/latest_ccm17c.jpg",
+				},
+				{
+					firstName: "Annabeth",
+					lastName: "Chase",
+					username: "annachase",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
+					website: "https://riordan.fandom.com/wiki/Annabeth_Chase",
+				},
+				{
+					firstName: "Leslie",
+					lastName: "Knope",
+					username: "leslieknopee",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				},
+				{
+					firstName: "Bharati",
+					lastName: "Subramanian",
+					username: "bhaaratii",
+					profileImage:
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1652721980/Bharati2_qxscpm.png",
+				},
+			],
+			dislikedBy: [],
+		},
+
+		username: "leslieknopee",
+		profileImage:
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+
+		createdAt: new Date("February 10 2021 10:16:26"),
+		updatedAt: formatDate(),
+		comments: [
+			{
+				_id: uuid(),
+				username: "shubhamsoni",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721963/photo-1633332755192-727a05c4013d_qo2tty.jpg",
+				text: "Oh wow, you are indeed evil!",
+				createdAt: new Date("February 11 2021 08:06:17"),
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+			},
+			{
+				_id: uuid(),
+				username: "annachase",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
+				text: "Me likey how your brain works!",
+				createdAt: new Date("February 10 2021 15:16:26"),
+				votes: {
+					upvotedBy: [],
+					downvotedBy: [],
+				},
+			},
+		],
+	},
+	{
+		_id: uuid(),
 		content:
 			"Progress lies not in enhancing what is, but in advancing toward what will be.",
 		postImage: null,
@@ -32,9 +171,11 @@ export const posts = [
 			],
 			dislikedBy: [],
 		},
-		username: "adarshbalika",
+
+		username: "leslieknopee",
 		profileImage:
-			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+
 		createdAt: new Date("February 10 2022 11:06:56"),
 		updatedAt: formatDate(),
 		comments: [
@@ -88,11 +229,11 @@ export const posts = [
 					website: "https://riordan.fandom.com/wiki/Annabeth_Chase",
 				},
 				{
-					firstName: "Adarsh",
-					lastName: "Balika",
-					username: "adarshbalika",
+					firstName: "Leslie",
+					lastName: "Knope",
+					username: "leslieknopee",
 					profileImage:
-						"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
 				},
 				{
 					firstName: "Bharati",
@@ -122,9 +263,11 @@ export const posts = [
 			},
 			{
 				_id: uuid(),
-				username: "adarshbalika",
+
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+
 				text: "Hey, why don't you go out for a change! xD",
 				createdAt: new Date("March 14 2019 10:17:19"),
 				votes: {
@@ -375,11 +518,11 @@ export const posts = [
 			likeCount: 7,
 			likedBy: [
 				{
-					firstName: "Adarsh",
-					lastName: "Balika",
-					username: "adarshbalika",
+					firstName: "Leslie",
+					lastName: "Knope",
+					username: "leslieknopee",
 					profileImage:
-						"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
 				},
 				{
 					firstName: "Shubham",
@@ -792,11 +935,11 @@ export const posts = [
 						"https://res.cloudinary.com/dylkclyom/image/upload/v1652722040/596_jes87l.jpg",
 				},
 				{
-					firstName: "Adarsh",
-					lastName: "Balika",
-					username: "adarshbalika",
+					firstName: "Leslie",
+					lastName: "Knope",
+					username: "leslieknopee",
 					profileImage:
-						"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
+						"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
 				},
 				{
 					firstName: "Shubham",

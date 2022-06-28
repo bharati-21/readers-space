@@ -15,13 +15,16 @@ const PostsList = ({ posts }) => {
 				<PostItem key={post._id} post={post} />
 			))}
 			<div key="last-element" ref={lastElementReference}>
-				{postsToDisplay?.length && hasMorePosts && loading && (
+				{postsToDisplay?.length &&
+				hasMorePosts &&
+				loading &&
+				posts?.length !== postsToDisplay?.length ? (
 					<img
 						src={inifnityLoading}
 						className="w-20 h-20"
 						alt="Animated infinity loading svg"
 					/>
-				)}
+				) : null}
 			</div>
 		</div>
 	);

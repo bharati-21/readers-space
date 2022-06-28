@@ -11,6 +11,7 @@ const initialState = {
 	usersLoading: true,
 	usersError: null,
 	suggestedUsers: [],
+	onGoingNetworkCall: false,
 };
 
 export const getAllUsers = createAsyncThunk(
@@ -78,6 +79,7 @@ const usersSlice = createSlice({
 			})
 			.addCase(postFollowUser.pending, (state) => {
 				state.usersLoading = true;
+				state.onGoingNetworkCall = true;
 			})
 			.addCase(postFollowUser.fulfilled, (state, action) => {
 				const { user, followUser } = action.payload;
@@ -89,13 +91,16 @@ const usersSlice = createSlice({
 						: stateUser
 				);
 				state.usersLoading = false;
+				state.onGoingNetworkCall = false;
 			})
 			.addCase(postFollowUser.rejected, (state, action) => {
 				state.usersError = action.payload;
 				state.usersLoading = false;
+				state.onGoingNetworkCall = false;
 			})
 			.addCase(postUnfollowUser.pending, (state) => {
 				state.usersLoading = true;
+				state.onGoingNetworkCall = true;
 			})
 			.addCase(postUnfollowUser.fulfilled, (state, action) => {
 				const { user, followUser } = action.payload;
@@ -107,10 +112,12 @@ const usersSlice = createSlice({
 						: stateUser
 				);
 				state.usersLoading = false;
+				state.onGoingNetworkCall = false;
 			})
 			.addCase(postUnfollowUser.rejected, (state, action) => {
 				state.usersError = action.payload;
 				state.usersLoading = false;
+				state.onGoingNetworkCall = false;
 			});
 	},
 });

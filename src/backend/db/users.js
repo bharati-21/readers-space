@@ -8,16 +8,16 @@ import { formatDate } from "../utils/authUtils";
 export const users = [
 	{
 		_id: uuid(),
-		firstName: "Adarsh",
-		lastName: "Balika",
-		username: "adarshbalika",
-		password: "adarshBalika123",
+		firstName: "Leslie",
+		lastName: "Knope",
+		username: "leslieknopee",
+		password: "leslieKnope123",
 		createdAt: formatDate(),
 		updatedAt: formatDate(),
-		bio: "A very adarsh developer balika",
+		bio: "A people loving government worker!",
 		profileImage:
-			"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-		website: "https://adarshbalika.netlify.app/",
+			"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+		website: "https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 		followers: [
 			{
 				firstName: "Shubham",
@@ -77,6 +77,13 @@ export const users = [
 				profileImage:
 					"https://res.cloudinary.com/dylkclyom/image/upload/v1652722029/latest_ccm17c.jpg",
 			},
+			{
+				firstName: "Bharati",
+				lastName: "Subramanian",
+				username: "bhaaratii",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721980/Bharati2_qxscpm.png",
+			},
 		],
 	},
 	{
@@ -93,12 +100,13 @@ export const users = [
 		website: "https://www.shubhamsoni.me/",
 		followers: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Bharati",
@@ -124,12 +132,13 @@ export const users = [
 		],
 		following: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Bharati",
@@ -152,7 +161,7 @@ export const users = [
 		firstName: "Bharati",
 		lastName: "Subramanian",
 		username: "bhaaratii",
-		password: "bharati123",
+		password: "bharati098",
 		createdAt: formatDate(),
 		updatedAt: formatDate(),
 		bio: "Loves Code, Books, Coffee, and Songs in no particular order!",
@@ -181,15 +190,25 @@ export const users = [
 				profileImage:
 					"https://res.cloudinary.com/dylkclyom/image/upload/v1652722175/profile-img_nxszbk.jpg",
 			},
+			{
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
+				profileImage:
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
+			},
 		],
 		following: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Shubham",
@@ -235,12 +254,13 @@ export const users = [
 		website: "https://johndoe-portfolio.netlify.app/",
 		followers: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Jane",
@@ -266,12 +286,13 @@ export const users = [
 		],
 		following: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Jane",
@@ -303,12 +324,13 @@ export const users = [
 		website: "https://dev-portfolio-template.netlify.app/",
 		followers: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Shubham",
@@ -341,12 +363,13 @@ export const users = [
 		],
 		following: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "John",
@@ -378,12 +401,13 @@ export const users = [
 		website: "https://harrypotter.fandom.com/wiki/Hermione_Granger",
 		followers: [
 			{
-				firstName: "Adarsh",
-				lastName: "Balika",
-				username: "adarshbalika",
+				firstName: "Leslie",
+				lastName: "Knope",
+				username: "leslieknopee",
 				profileImage:
-					"https://res.cloudinary.com/dylkclyom/image/upload/v1652721946/photo-1580489944761-15a19d654956_dekeb7.jpg",
-				website: "https://adarshbalika.netlify.app/",
+					"https://res.cloudinary.com/dylkclyom/image/upload/v1653879146/latest_idft5q.png",
+				website:
+					"https://parksandrecreation.fandom.com/wiki/Leslie_Knope",
 			},
 			{
 				firstName: "Bharati",

@@ -10,7 +10,7 @@ const ProtectedRoutes = () => {
 	const location = useLocation();
 
 	return isAuth ? (
-		<main className="min-h-[100vh] w-full px-8 sm:px-6 grid grid-cols-1 md:grid-container">
+		<main className="min-h-[100vh] w-full px-8 sm:px-6 grid grid-cols-1 md:grid-container max-w-[1280px]">
 			<LeftSidebar />
 			<Outlet />
 			<RightSidebar />

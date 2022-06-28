@@ -18,8 +18,13 @@ const SuggestedUsers = () => {
 		authUser: { username },
 		authToken,
 	} = useSelector(getAuthState);
-	const { users, usersLoading, usersError, suggestedUsers } =
-		useSelector(getUsersState);
+	const {
+		users,
+		usersLoading,
+		usersError,
+		suggestedUsers,
+		onGoingNetworkCall,
+	} = useSelector(getUsersState);
 
 	useEffect(() => {
 		if (!users.length) {
@@ -51,7 +56,7 @@ const SuggestedUsers = () => {
 		<h3 className="md:text-2xl text-red-500 font-semibold text-center text-base relative z-[2]">
 			Some error occurred. Could not load suggested users.
 		</h3>
-	) : usersLoading ? (
+	) : usersLoading && !onGoingNetworkCall ? (
 		<h3 className="md:text-2xl text-green-600 font-semibold text-center text-base relative z-[2]">
 			Loading...
 		</h3>

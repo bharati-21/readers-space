@@ -68,17 +68,19 @@ const LeftSidebar = () => {
 
 	return (
 		<>
-			<aside className="sidebar-nav py-8 p-4 pr-8 hidden md:flex flex-col justify-start items-center h-full w-full max-w-[180px]">
+			<aside className="sidebar-nav py-8 pr-4 hidden md:flex flex-col justify-start items-center h-full w-full max-w-[180px]">
 				<div className="flex fixed flex-col justify-between items-center">
 					<ul className="flex list-none flex-col gap-4 justify-center w-full">
 						{getMappedLinks("sidebar")}
+						<li key={uuid()} className="mt-2">
+							<button
+								className="btn-primary  w-full py-1.5"
+								onClick={handleShowModalDialog}
+							>
+								Create New Post
+							</button>
+						</li>
 					</ul>
-					<button
-						className="btn-primary max-w-[160px] w-full py-1.5 fixed bottom-10"
-						onClick={handleShowModalDialog}
-					>
-						Create New Post
-					</button>
 				</div>
 			</aside>
 			<ul className="list-none fixed bottom-0 md:hidden flex flex-row gap-4 py-4 bg-gray-100 dark:bg-slate-800 px-8 justify-between items-center w-full left-0 right-0 flex-wrap z-[5]">

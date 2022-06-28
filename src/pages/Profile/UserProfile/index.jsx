@@ -14,15 +14,7 @@ import { useToast } from "hooks";
 import { getUserDetails } from "utils";
 
 const UserProfile = ({ userProfile, userPostsLength }) => {
-	const {
-		username,
-		firstName,
-		lastName,
-		website,
-		bio,
-		followers,
-		following,
-	} = userProfile;
+	const { username, firstName, lastName, website, bio } = userProfile;
 
 	const dispatch = useDispatch();
 	const {
@@ -136,7 +128,7 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 			</div>
 			<div className="bg-gray-100 dark:bg-slate-800 h-max p-5 w-full">
 				<div className="user-info flex flex-col gap-4 items-center w-full mt-[150px]">
-					<div className="about mx-auto text-center">
+					<div className="about mx-auto text-center flex flex-col items-center justify-center gap-2">
 						<p>{bio}</p>
 						<div
 							className="buttons-container mt-1 flex flex-row gap-2 items-center justify-center"
@@ -166,7 +158,7 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 						<h6
 							className={`${
 								usersFollowers?.length
-									? "cursor-pointer underline hover:text-sky-500"
+									? "cursor-pointer hover:underline hover:text-sky-500"
 									: "cursor-default"
 							}`}
 							onClick={(e) => handleShowUserList(e, "FOLLOWERS")}
@@ -177,7 +169,7 @@ const UserProfile = ({ userProfile, userPostsLength }) => {
 						<h6
 							className={`${
 								usersFollowers?.length
-									? "cursor-pointer underline hover:text-sky-500"
+									? "cursor-pointer hover:underline hover:text-sky-500"
 									: "cursor-default"
 							}`}
 							onClick={(e) => handleShowUserList(e, "FOLLOWING")}

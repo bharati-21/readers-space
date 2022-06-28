@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
 	FavoriteBorder,
 	Favorite,
@@ -26,11 +26,12 @@ import {
 	getPostsState,
 	setUserList,
 } from "features";
-import { useToast } from "hooks";
+import { useOnOutsideClick, useToast } from "hooks";
 import Hyphenated from "react-hyphen";
 
 const PostItem = ({ post, location }) => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
+	const moreOptionsReference = useRef(null);
 
 	const {
 		authToken,
@@ -173,9 +174,8 @@ const PostItem = ({ post, location }) => {
 					.profileImage
 			: post.profileImage;
 
-	const handleUserInfoClicked = (event) => {
+	const navigateToProfile = (event) => {
 		event.stopPropagation();
-
 		navigate(`/profile/${username}`);
 	};
 
@@ -211,32 +211,36 @@ const PostItem = ({ post, location }) => {
 
 	const handleCopyPostLinkToClipboard = (event) => {
 		navigator.clipboard
-			.writeText(`https://readers-space.netlify.app/post/${post.id}`)
+			.writeText(`${window.location.origin}/post/share/${post.id}`)
 			.then(() => showToast("Copied post link to clipboard."));
 	};
 
-	console.log(postImage);
+	useOnOutsideClick(moreOptionsReference, () => setShowMoreOptions(false));
 
 	return (
 		<div className="post-item border dark:bg-slate-800 bg-gray-100 border-gray-300 dark:border-slate-500 flex flex-col p-4 w-full rounded-sm gap-6 shadow-sm max-w-[1080px]">
 			<div
-				className="flex flex-row items-start justify-between gap-4 w-full rounded-sm cursor-pointer"
+				className={`flex flex-row items-start justify-between gap-4 w-full rounded-sm ${
+					location === "singlePost"
+						? "cursor-default"
+						: "cursor-pointer"
+				}`}
 				onClick={navigateToSinglePostView}
 			>
 				<img
-					className="inline-block h-10 w-10 md:h-8 md:w-8  rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
-					onClick={handleUserInfoClicked}
+					className="inline-block h-10 w-10 md:h-8 md:w-8 rounded-full ring-2 ring-sky-500 shrink-0 object-cover"
+					onClick={navigateToProfile}
 					src={profileImage}
 					alt={`${username} profile image`}
 				/>
 				<div className="flex flex-col items-start justify-between w-full gap-4">
 					<div className="flex flex-row gap-1 justify-between items-center flex-wrap w-full">
-						<div
-							className="h4 text-base font-semibold md:text-lg"
-							onClick={handleUserInfoClicked}
+						<p
+							onClick={navigateToProfile}
+							className="h4 text-base font-semibold md:text-lg cursor-pointer"
 						>
 							{username}
-						</div>
+						</p>
 						<p className="text-xs text-grat-400 w-max">
 							{formattedDate}
 						</p>
@@ -264,6 +268,7 @@ const PostItem = ({ post, location }) => {
 							className={`options-container absolute flex-col right-0 top-[105%] w-max h-max dark:bg-slate-800 border border-sky-500 bg-slate-200 z-[3] ${
 								showMoreOptions ? "flex" : "hidden"
 							}`}
+							ref={moreOptionsReference}
 						>
 							<button
 								className="py-2 px-4 border-b dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-slate-700 border-b-sky-500"
